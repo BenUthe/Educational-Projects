@@ -37,7 +37,7 @@
           <h1 class="display-4 mb-3">JobSearch <sup>&trade;</sup></h1>
           <form class="form-inline" name="searchForm">
             <div class="input-group input-group-lg w-100 mb-3">
-              <input type="text" name="keywords" class="form-control" placeholder="Job Title" aria-label="Job Title">
+              <input type="text" name="keywords" class="form-control" placeholder="Job Keywords" aria-label="Job Keywords">
               <input type="text" name="location" class="form-control" placeholder="Job Location" aria-label="Job Location" aria-describedby="button-addon2">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit" id="jobSearchButton"><i class="fas fa-search"></i> Search</button>
@@ -57,11 +57,11 @@
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="filterFullTime" name="filterFullTime" value="fullTime">
                       <label class="custom-control-label" for="filterFullTime">Full-Time</label>
-                    </div>                    
+                    </div>
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="filterPartTime" name="filterPartTime" value="partTime">
                       <label class="custom-control-label" for="filterPartTime">Part-Time</label>
-                    </div>                   
+                    </div>
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="filterContract" name="filterContract" value="contract">
                       <label class="custom-control-label" for="filterContract">Contract</label>
@@ -83,8 +83,8 @@
                       </div>
                     </div>
                     <input type="range" class="custom-range" id="filterMinSalary" name="filterMinSalary" value="0" min="0" max="100000" step="1000">
-                        
-                    
+
+
                     <div class="input-group mb-3 mt-5">
                       <div class="input-group-prepend">
                         <span class="input-group-text">Maximum Salary $</span>
@@ -118,20 +118,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 col-md-8">
-              <div class="card w-100">
-                <div class="card-body">
-                  <h5 class="card-title">Full Job Title |<small class="text-muted"> Company</small></h5>
-                  <h6 class="card-subtitle mb-2 text-muted">
-                    <button type="button" class="jobSalary btn btn-outline-success mr-2 my-2"><i class="fas fa-money-check-alt"></i> $50,000</button>
-                    <button type="button" class="jobLocation btn btn-outline-dark mr-2 my-2"><i class="fas fa-map-marked-alt"></i> Toronto</button>
-                    <button type="button" class="jobCategory btn btn-outline-dark"><i class="fas fa-business-time"></i> Full-time</button>
-                  </h6>
-                  <p class="card-text">Nunc nibh sem, gravida sit amet metus egestas, condimentum consectetur erat. Etiam sed ante vitae neque gravida euismod. Proin ultricies tincidunt tortor, et molestie eros interdum in. Suspendisse sagittis iaculis elit ut sodales. Curabitur interdum libero in arcu fringilla bibendum. Fusce rhoncus nulla eget justo facilisis, ut pulvinar ex volutpat. Morbi accumsan auctor tellus eget ullamcorper.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-              </div>
-            </div>
+            <div id="jobPostings" class="col-sm-12 col-md-8"></div>
           </div>
         </div>
       </section>
@@ -144,5 +131,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="listings.js"></script>
   </body>
 </html>
