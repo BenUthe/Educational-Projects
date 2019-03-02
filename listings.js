@@ -18,6 +18,17 @@ function initListings(e) {
 	jobPosts = getJobPosts();
 	jobPosts.forEach(renderJobPost);
 	updateFilterOptions();
+
+	// Event Listeners for syncing salary slider and textboxes
+	const maxSalarySlider = document.querySelector("#filterMaxSalary");
+	const maxSalaryText = document.querySelector("#filterMaxSalaryText");
+	const minSalarySlider = document.querySelector("#filterMinSalary");
+	const minSalaryText = document.querySelector("#filterMinSalaryText");
+	maxSalarySlider.addEventListener("change", syncSalary);
+	maxSalaryText.addEventListener("change", syncSalary);
+	minSalarySlider.addEventListener("change", syncSalary);
+	minSalaryText.addEventListener("change", syncSalary);
+
 }
 
 window.addEventListener("load", initListings);
@@ -100,6 +111,22 @@ function isValidJob(job, timesAllowed, locsAllowed) {
 	return timeMatch && locationMatch;
 }
 
+function syncSalary(e) {
+	const elementValue = this.value;
+	const elementID = this.id.substring(6, 9);
+	const elementType = this.type;
+
+	renderSalaryValue(elementID, elementType);
+}
+
+function formatAmount(amt) {
+	try {
+		return parseInt(amt).toLocaleString();
+	} catch{
+		return "0";
+	}
+}
+
 
 /** DOM MANIPULATING FUNCTIONS */
 function renderJobPost(jobPost) {
@@ -154,6 +181,22 @@ function updateFilterForms(timesList, citiesList) {
 			<label class="custom-control-label" for="filterLocation${i}">${citiesList[i]}</label>`;
 		locationsForm.appendChild(cityDiv);
 	}
+}
+
+function renderSalaryValue(elementID, elementType) {
+	let srcElement;
+	let destElement;
+	// Determine if slider was changed or text was changed
+	if (elementType == "range") {
+		srcElement = document.querySelector(`#filter${elementID}Salary`);
+		destElement = document.querySelector(`#filter${elementID}SalaryText`);
+		destElement.value = formatAmount(srcElement.value); //format the value if it's a textbox
+	}else {
+		srcElement = document.querySelector(`#filter${elementID}SalaryText`);
+		destElement = document.querySelector(`#filter${elementID}Salary`);
+		destElement.value = srcElement.value.split(',').join('');
+	}
+
 }
 
 
