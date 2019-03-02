@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <title>JobSearch:: Job Listings</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#AccountMenu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="AccountMenu">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Sign up</a>
+            </li>
+            <li class="nav-item">
+              <a class="m-1 btn btn-outline-primary" href="#">Login</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main role="main">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4 mb-3">JobSearch <sup>&trade;</sup></h1>
+          <form class="form-inline" name="searchForm">
+            <div class="input-group input-group-lg w-100 mb-3">
+              <input type="text" name="keywords" class="form-control" placeholder="Job Title" aria-label="Job Title">
+              <input type="text" name="location" class="form-control" placeholder="Job Location" aria-label="Job Location" aria-describedby="button-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit" id="jobSearchButton"><i class="fas fa-search"></i> Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <section id="jobResults">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">Categories</h3>
+                <div class="card-body">
+                  <form class="form" name="filterCategories">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="filterFullTime" name="filterFullTime" value="fullTime">
+                      <label class="custom-control-label" for="filterFullTime">Full-Time</label>
+                    </div>                    
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="filterPartTime" name="filterPartTime" value="partTime">
+                      <label class="custom-control-label" for="filterPartTime">Part-Time</label>
+                    </div>                   
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="filterContract" name="filterContract" value="contract">
+                      <label class="custom-control-label" for="filterContract">Contract</label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="card w-100 my-3">
+                <h3 class="card-header">Salaries</h3>
+                <div class="card-body">
+                  <form class="form" name="filterSalaries">
+                    <label for="customRange1">Minimum Salary</label>
+                    <input name="filterMinSalary" type="range" class="custom-range" id="filterMinSalary" min="0" max="100000" step="1000">
+                    <label for="customRange1">Maximum Salary</label>
+                    <input name="filterMaxSalary" type="range" class="custom-range" id="filterMaxSalary" min="0" max="100000" step="1000">
+                  </form>
+                </div>
+              </div>
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">Locations</h3>
+                <div class="card-body">
+                  <form class="form" name="filterLocations">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="filterLocation1" name="filterLocation1" value="Oshawa">
+                      <label class="custom-control-label" for="filterLocation1">Oshawa</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="filterLocation2" name="filterLocation2" value="Toronto">
+                      <label class="custom-control-label" for="filterLocation1">Toronto</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="filterLocation2" name="filterLocation3" value="Etobicoke">
+                      <label class="custom-control-label" for="filterLocation1">Etobicoke</label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-8">
+              <div class="card w-100">
+                <div class="card-body">
+                  <h5 class="card-title">Full Job Title |<small class="text-muted"> Company</small></h5>
+                  <h6 class="card-subtitle mb-2 text-muted">
+                    <button type="button" class="jobSalary btn btn-outline-success mr-2"><i class="fas fa-money-check-alt"></i> $50,000</button>
+                    <button type="button" class="jobLocation btn btn-outline-dark mx-2"><i class="fas fa-map-marked-alt"></i> Toronto</button>
+                    <button type="button" class="jobCategory btn btn-outline-dark mx-2"><i class="fas fa-business-time"></i> Full-time</button>
+                  </h6>
+                  <p class="card-text">Nunc nibh sem, gravida sit amet metus egestas, condimentum consectetur erat. Etiam sed ante vitae neque gravida euismod. Proin ultricies tincidunt tortor, et molestie eros interdum in. Suspendisse sagittis iaculis elit ut sodales. Curabitur interdum libero in arcu fringilla bibendum. Fusce rhoncus nulla eget justo facilisis, ut pulvinar ex volutpat. Morbi accumsan auctor tellus eget ullamcorper.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
