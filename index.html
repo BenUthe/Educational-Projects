@@ -73,10 +73,28 @@
                 <h3 class="card-header">Salaries</h3>
                 <div class="card-body">
                   <form class="form" name="filterSalaries">
-                    <label for="customRange1">Minimum Salary</label>
-                    <input name="filterMinSalary" type="range" class="custom-range" id="filterMinSalary" min="0" max="100000" step="1000">
-                    <label for="customRange1">Maximum Salary</label>
-                    <input name="filterMaxSalary" type="range" class="custom-range" id="filterMaxSalary" min="0" max="100000" step="1000">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Minimum Salary $</span>
+                      </div>
+                      <input type="text" class="form-control" aria-label="Minimum Salary (to the nearest dollar)" id="filterMinSalaryText" name="filterMinSalaryText">
+                      <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                      </div>
+                    </div>
+                    <input type="range" class="custom-range" id="filterMinSalary" name="filterMinSalary" value="0" min="0" max="100000" step="1000">
+                        
+                    
+                    <div class="input-group mb-3 mt-5">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Maximum Salary $</span>
+                      </div>
+                      <input type="text" class="form-control" aria-label="Maximum Salary (to the nearest dollar)" id="filterMaxSalaryText" name="filterMaxSalaryText">
+                      <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                      </div>
+                    </div>
+                    <input name="filterMaxSalary" type="range" class="custom-range" id="filterMaxSalary" value="50000" min="0" max="100000" step="1000">
                   </form>
                 </div>
               </div>
@@ -90,11 +108,11 @@
                     </div>
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="filterLocation2" name="filterLocation2" value="Toronto">
-                      <label class="custom-control-label" for="filterLocation1">Toronto</label>
+                      <label class="custom-control-label" for="filterLocation2">Toronto</label>
                     </div>
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="filterLocation2" name="filterLocation3" value="Etobicoke">
-                      <label class="custom-control-label" for="filterLocation1">Etobicoke</label>
+                      <input type="checkbox" class="custom-control-input" id="filterLocation3" name="filterLocation3" value="Etobicoke">
+                      <label class="custom-control-label" for="filterLocation3">Etobicoke</label>
                     </div>
                   </form>
                 </div>
@@ -105,9 +123,9 @@
                 <div class="card-body">
                   <h5 class="card-title">Full Job Title |<small class="text-muted"> Company</small></h5>
                   <h6 class="card-subtitle mb-2 text-muted">
-                    <button type="button" class="jobSalary btn btn-outline-success mr-2"><i class="fas fa-money-check-alt"></i> $50,000</button>
-                    <button type="button" class="jobLocation btn btn-outline-dark mx-2"><i class="fas fa-map-marked-alt"></i> Toronto</button>
-                    <button type="button" class="jobCategory btn btn-outline-dark mx-2"><i class="fas fa-business-time"></i> Full-time</button>
+                    <button type="button" class="jobSalary btn btn-outline-success mr-2 my-2"><i class="fas fa-money-check-alt"></i> $50,000</button>
+                    <button type="button" class="jobLocation btn btn-outline-dark mr-2 my-2"><i class="fas fa-map-marked-alt"></i> Toronto</button>
+                    <button type="button" class="jobCategory btn btn-outline-dark"><i class="fas fa-business-time"></i> Full-time</button>
                   </h6>
                   <p class="card-text">Nunc nibh sem, gravida sit amet metus egestas, condimentum consectetur erat. Etiam sed ante vitae neque gravida euismod. Proin ultricies tincidunt tortor, et molestie eros interdum in. Suspendisse sagittis iaculis elit ut sodales. Curabitur interdum libero in arcu fringilla bibendum. Fusce rhoncus nulla eget justo facilisis, ut pulvinar ex volutpat. Morbi accumsan auctor tellus eget ullamcorper.</p>
                   <a href="#" class="btn btn-primary">Go somewhere</a>
