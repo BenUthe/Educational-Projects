@@ -2,6 +2,7 @@
 
 let jobPosts = [];
 let searchForm, categoriesForm, locationsForm, jobPostsDiv;
+let minSalarySlider, minSalaryText, maxSalarySlider, maxSalaryText;
 
 function initListings(e) {
 	searchForm = document.forms["searchForm"];
@@ -17,17 +18,24 @@ function initListings(e) {
 
 	jobPosts = getJobPosts();
 	jobPosts.forEach(renderJobPost);
-	updateFilterOptions();
 
 	// Event Listeners for syncing salary slider and textboxes
-	const maxSalarySlider = document.querySelector("#filterMaxSalary");
-	const maxSalaryText = document.querySelector("#filterMaxSalaryText");
-	const minSalarySlider = document.querySelector("#filterMinSalary");
-	const minSalaryText = document.querySelector("#filterMinSalaryText");
-	maxSalarySlider.addEventListener("change", syncSalary);
-	maxSalaryText.addEventListener("change", syncSalary);
+	minSalarySlider = document.querySelector("#filterMinSalary");
+	maxSalarySlider = document.querySelector("#filterMaxSalary");
+
+	minSalaryText = document.querySelector("#filterMinSalaryText");
+	maxSalaryText = document.querySelector("#filterMaxSalaryText");
+
 	minSalarySlider.addEventListener("change", syncSalary);
+	minSalarySlider.addEventListener("change", filterPosts);
 	minSalaryText.addEventListener("change", syncSalary);
+	minSalaryText.addEventListener("change", filterPosts);
+	maxSalarySlider.addEventListener("change", syncSalary);
+	maxSalarySlider.addEventListener("change", filterPosts);
+	maxSalaryText.addEventListener("change", syncSalary);
+	maxSalaryText.addEventListener("change", filterPosts);
+
+	updateFilterOptions();
 
 }
 
@@ -77,12 +85,6 @@ function filterPosts(e) {
 	const checkedTimes = categoriesForm.querySelectorAll("input:checked");
 	const checkedLocations = locationsForm.querySelectorAll("input:checked");
 
-	if(checkedTimes.length === 0 && checkedLocations.length === 0) {
-		clearJobPosts();
-		jobPosts.forEach(renderJobPost);
-		return;
-	}
-
 	const newJobs = jobPosts.filter(job => isValidJob(job, checkedTimes, checkedLocations));
 
 	clearJobPosts();
@@ -90,6 +92,8 @@ function filterPosts(e) {
 }
 
 function isValidJob(job, timesAllowed, locsAllowed) {
+	let salaryMatch = minSalarySlider.value <= job.salary && job.salary <= maxSalarySlider.value;
+
 	let timeMatch = timesAllowed.length === 0;
 	for(let i = 0; i < timesAllowed.length; i++) {
 		if(timesAllowed[i].value === job.time) {
@@ -102,13 +106,11 @@ function isValidJob(job, timesAllowed, locsAllowed) {
 	for(let i = 0; i < locsAllowed.length; i++) {
 		if(locsAllowed[i].value === job.city) {
 			locationMatch = true;
-			break
+			break;
 		}
 	}
 
-	// TODO SALARY MATCH
-
-	return timeMatch && locationMatch;
+	return salaryMatch && timeMatch && locationMatch;
 }
 
 function syncSalary(e) {
@@ -155,6 +157,8 @@ function clearJobPosts() {
 
 function updateFilterForms(timesList, citiesList) {
 	// TODO: reset salary range
+	minSalarySlider.value = minSalaryText.value = 0;
+	maxSalarySlider.value = maxSalaryText.value = 100000;
 
 	// update time categories
 	while(categoriesForm.hasChildNodes())
