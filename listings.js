@@ -3,6 +3,25 @@
 let jobPosts = [];
 let searchForm, categoriesForm, locationsForm, jobPostsDiv;
 
+function initListings(e) {
+	searchForm = document.forms["searchForm"];
+	searchForm.addEventListener("submit", searchJobs);
+
+	categoriesForm = document.forms["filterCategories"];
+	categoriesForm.addEventListener("change", filterPosts);
+
+	locationsForm = document.forms["filterLocations"];
+	locationsForm.addEventListener("change", filterPosts);
+
+	jobPostsDiv = document.querySelector("#jobPostings");
+
+	jobPosts = getJobPosts();
+	jobPosts.forEach(renderJobPost);
+	updateFilterOptions();
+}
+
+window.addEventListener("load", initListings);
+
 class JobPost {
 	constructor(title, company, salary, time, city, province, desc) {
 		this.title = title;
@@ -14,22 +33,6 @@ class JobPost {
 		this.desc = desc;
 	}
 }
-
-function initListings(e) {
-	searchForm = document.forms["searchForm"];
-	searchForm.addEventListener("submit", searchJobs);
-
-	categoriesForm = document.forms["filterCategories"];
-	locationsForm = document.forms["filterLocations"];
-
-	jobPostsDiv = document.querySelector("#jobPostings");
-
-	jobPosts = getJobPosts();
-	jobPosts.forEach(renderJobPost);
-	updateFilterOptions();
-}
-
-window.addEventListener("load", initListings);
 
 function searchJobs(e) {
 	e.preventDefault();
@@ -46,8 +49,8 @@ function searchJobs(e) {
 }
 
 function updateFilterOptions() {
-	let timesList = [];
-	let citiesList = [];
+	const timesList = [];
+	const citiesList = [];
 
 	for (let i = 0; i < jobPosts.length; i++) {
 		if(!timesList.includes(jobPosts[i].time))
@@ -57,6 +60,44 @@ function updateFilterOptions() {
 	}
 
 	updateFilterForms(timesList, citiesList);
+}
+
+function filterPosts(e) {
+	const checkedTimes = categoriesForm.querySelectorAll("input:checked");
+	const checkedLocations = locationsForm.querySelectorAll("input:checked");
+
+	if(checkedTimes.length === 0 && checkedLocations.length === 0) {
+		clearJobPosts();
+		jobPosts.forEach(renderJobPost);
+		return;
+	}
+
+	const newJobs = jobPosts.filter(job => isValidJob(job, checkedTimes, checkedLocations));
+
+	clearJobPosts();
+	newJobs.forEach(renderJobPost);
+}
+
+function isValidJob(job, timesAllowed, locsAllowed) {
+	let timeMatch = timesAllowed.length === 0;
+	for(let i = 0; i < timesAllowed.length; i++) {
+		if(timesAllowed[i].value === job.time) {
+			timeMatch = true;
+			break;
+		}
+	}
+
+	let locationMatch = locsAllowed.length === 0;
+	for(let i = 0; i < locsAllowed.length; i++) {
+		if(locsAllowed[i].value === job.city) {
+			locationMatch = true;
+			break
+		}
+	}
+
+	// TODO SALARY MATCH
+
+	return timeMatch && locationMatch;
 }
 
 
@@ -86,7 +127,7 @@ function clearJobPosts() {
 }
 
 function updateFilterForms(timesList, citiesList) {
-	// reset salary range
+	// TODO: reset salary range
 
 	// update time categories
 	while(categoriesForm.hasChildNodes())
@@ -96,11 +137,12 @@ function updateFilterForms(timesList, citiesList) {
 		const timeDiv = document.createElement("div");
 		timeDiv.className = "custom-control custom-checkbox";
 		timeDiv.innerHTML =
-			`<input type="checkbox" class="custom-control-input" id="filterTime{i}" name="filterTime{i}" value="${timesList[i]}">
-			<label class="custom-control-label" for="filterTime{i}">${timesList[i]}</label>`;
+			`<input type="checkbox" class="custom-control-input" id="filterTime${i}" name="filterTime${i}" value="${timesList[i]}">
+			<label class="custom-control-label" for="filterTime${i}">${timesList[i]}</label>`;
 		categoriesForm.appendChild(timeDiv);
 	}
 
+	// update locations
 	while(locationsForm.hasChildNodes())
 		locationsForm.removeChild(locationsForm.lastChild);
 
@@ -108,8 +150,8 @@ function updateFilterForms(timesList, citiesList) {
 		const cityDiv = document.createElement("div");
 		cityDiv.className = "custom-control custom-checkbox";
 		cityDiv.innerHTML =
-			`<input type="checkbox" class="custom-control-input" id="filterLocation{i}" name="filterLocation{i}" value="${citiesList[i]}">
-			<label class="custom-control-label" for="filterLocation{i}">${citiesList[i]}</label>`;
+			`<input type="checkbox" class="custom-control-input" id="filterLocation${i}" name="filterLocation${i}" value="${citiesList[i]}">
+			<label class="custom-control-label" for="filterLocation${i}">${citiesList[i]}</label>`;
 		locationsForm.appendChild(cityDiv);
 	}
 }
