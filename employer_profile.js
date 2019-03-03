@@ -9,17 +9,19 @@ function initPage(e) {
 	empNumPostsSpan = document.querySelector("#numPosts");
 	empPostForm = document.forms["newJob"];
 
+	empJobPostsDiv.addEventListener("click", jobsClickListener);
+
 	empJobPosts = getCompanyJobPosts(employer);
-	empJobPosts.forEach(job => renderJobPost(job, empJobPostsDiv));
+	empJobPosts.forEach(job => renderJobPost(job, empJobPostsDiv, true));
 
 	renderNumPosts();
 
-	empPostForm.addEventListener("submit", createPosting);
+	empPostForm.addEventListener("submit", createPost);
 }
 
 window.addEventListener("load", initPage);
 
-function createPosting(e) {
+function createPost(e) {
 	e.preventDefault();
 
 	// TODO: more rigorous validation
@@ -67,13 +69,25 @@ function createPosting(e) {
 	renderNumPosts();
 }
 
+function jobsClickListener(e) {
+	if(e.target.classList.contains("delete"))
+		deletePost(e);
+}
+
+function deletePost(e) {
+	const postDiv = e.target.parentElement.parentElement.parentElement;
+	const idx = Array.prototype.indexOf.call(empJobPostsDiv.children, postDiv);
+	deleteJobPost(empJobPosts[idx].id);
+	empJobPosts.splice(idx, 1);
+	removePostDiv(postDiv);
+}
+
 /** DOM MANIPULATING FUNCTIONS */
 function renderNumPosts() {
 	empNumPostsSpan.innerText = empJobPosts.length;
 }
 
 function renderEmpFormErr(errText) {
-	// TODO: display errText
 	document.querySelector("#invalidPostSpan").innerText = errText;
 }
 
@@ -87,10 +101,21 @@ function clearEmpForm() {
 	$("#modalCreateJob").modal('hide');
 }
 
+function removePostDiv(postDiv) {
+	empJobPostsDiv.removeChild(postDiv);
+	renderNumPosts();
+}
+
 /** BACKEND INVOLVING FUNCTIONS */
 function createJobPost(jobPost) {
 	// Should send the new post entry to the server
 	// so the server can store the entry in the db
+	// code below requires server call
+	return true;
+}
+
+function deleteJobPost(jobPostID) {
+	// Should delete the given job post from db
 	// code below requires server call
 	return true;
 }

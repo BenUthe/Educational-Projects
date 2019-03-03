@@ -13,7 +13,7 @@ class JobPost {
 }
 
 /** DOM MANIPULATING FUNCTIONS */
-function renderJobPost(jobPost, jobPostsDiv) {
+function renderJobPost(jobPost, jobPostsDiv, manageable=false) {
 	const postDiv = document.createElement("div");
 	postDiv.className = "card w-100 mb-3";
 	postDiv.innerHTML = `<div class="card-body">
@@ -22,6 +22,7 @@ function renderJobPost(jobPost, jobPostsDiv) {
 	        <button type="button" class="jobSalary btn btn-outline-success mr-2 my-2"><i class="fas fa-money-check-alt"></i> $${jobPost.salary}</button>
 	        <button type="button" class="jobLocation btn btn-outline-dark mr-2 my-2"><i class="fas fa-map-marked-alt"></i> ${jobPost.city}</button>
 	        <button type="button" class="jobCategory btn btn-outline-dark"><i class="fas fa-business-time"></i> ${jobPost.time}</button>
+	        ${manageable ? '<button type="button" class="delete btn btn-outline-dark float-right"><i class="fas fa-trash"></i> Delete Post</button>' : ""}
 	      </h6>
 	      <p class="card-text">${jobPost.desc}</p>
 	      <a href="#" class="btn btn-primary">Go somewhere</a>
