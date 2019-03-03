@@ -8,7 +8,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
+	<link rel="stylesheet" href="project.css">
+	
     <title>JobSearch:: Job Listings</title>
   </head>
   <body>
@@ -24,7 +25,7 @@
               <a class="nav-link" href="#">Sign up</a>
             </li>
             <li class="nav-item">
-              <a class="m-1 btn btn-outline-primary" href="#">Login</a>
+              <button class="m-1 btn btn-outline-primary" data-toggle="modal" data-target="#modalLogin">Login</a>
             </li>
           </ul>
         </div>
@@ -34,7 +35,7 @@
     <main role="main">
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <h1 class="display-4 mb-3">JobSearch <sup>&trade;</sup></h1>
+          <h1 class="display-4 mb-3"><a href="index.html" class="deco-none">JobSearch <sup>&trade;</sup></a></h1>
           <form class="form-inline" name="searchForm">
             <div class="input-group input-group-lg w-100 mb-3">
               <input type="text" name="keywords" class="form-control" placeholder="Job Keywords" aria-label="Job Keywords">
@@ -124,7 +125,32 @@
       </section>
     </main>
 
-
+<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalCreateLogin" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <form name="loginForm">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalCreateLogin">Login</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+			<span id = "invalidEntry"></span>
+            <div class="form-group">
+              <input type="text" class="form-control" name="username" id="username" placeholder="Username">
+            </div>
+			<div class="form-group">
+              <input type="PASSWORD" class="form-control" name="password" id="password" placeholder="Password">
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
