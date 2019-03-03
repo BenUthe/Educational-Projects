@@ -1,7 +1,7 @@
 "use strict";
 
 let jobPosts = [];
-let searchForm, categoriesForm, locationsForm, jobPostsDiv;
+let searchForm, categoriesForm, locationsForm, loginForm, jobPostsDiv;
 let minSalarySlider, minSalaryText, maxSalarySlider, maxSalaryText;
 
 function initListings(e) {
@@ -13,6 +13,10 @@ function initListings(e) {
 
 	locationsForm = document.forms["filterLocations"];
 	locationsForm.addEventListener("change", filterPosts);
+	
+	loginForm = document.forms["loginForm"];
+	loginForm.addEventListener("submit", loginRedirect);
+
 
 	jobPostsDiv = document.querySelector("#jobPostings");
 
@@ -53,6 +57,23 @@ function searchJobs(e) {
 	clearJobPosts(jobPostsDiv);
 	jobPosts.forEach(job => renderJobPost(job, jobPostsDiv));
 	updateFilterOptions();
+}
+
+function loginRedirect(e) {
+	e.preventDefault();
+	
+	const user = loginForm.elements["username"].value;
+	const pass = loginForm.elements["password"].value;
+	
+	if(user === "user" && pass === "user"){
+		window.location.href = "project1.html";
+}
+	else if(user === "user2" && pass === "user2"){
+		window.location.href = "employer_profile.html";
+}
+	else if(user === "admin" && pass === "admin"){
+		window.location.href = "admin.html";
+}
 }
 
 function updateFilterOptions() {
