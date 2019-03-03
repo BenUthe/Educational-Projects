@@ -12,7 +12,7 @@ class EmployerProfile {
 	}
 }
 
-const employer;
+let employer;
 let empJobPosts = [];
 let empJobPostsDiv, empNumPostsSpan, empPostForm;
 
@@ -23,11 +23,11 @@ function initPage(e) {
 
 	empJobPostsDiv.addEventListener("click", jobsClickListener);
 
-	empJobPosts = getCompanyJobPosts(employer.name);
-	empJobPosts.forEach(job => renderJobPost(job, empJobPostsDiv, true));
-
 	employer = getEmployerProfile();
 	renderEmployerProfile(employer);
+
+	empJobPosts = getCompanyJobPosts(employer.name);
+	empJobPosts.forEach(job => renderJobPost(job, empJobPostsDiv, true));
 
 	renderNumPosts();
 
@@ -99,18 +99,20 @@ function deletePost(e) {
 
 /** DOM MANIPULATING FUNCTIONS */
 function renderEmployerProfile(employer){
-	const name = document.getElementById("name");
+	const name = document.getElementById("companyName");
 	name.innerText = employer.name;
-	const location = document.getElementById("location");
+	const location = document.getElementById("companyLocation");
 	location.innerText = employer.location;
-	const email = document.getElementById("email");
+	const email = document.getElementById("companyEmail");
 	email.innerText = employer.email;
-	const about = document.getElementById("aboutCompany");
-	about.innerText = employer.about;
-	const instagram = document.getElementById("instagram");
+	const facebook = document.getElementById("companyFacebook");
+	facebook.href = employer.facebook;
+	const instagram = document.getElementById("companyInstagram");
 	instagram.href = employer.instagram;
-	const twitter = document.getElementById("twitter");
+	const twitter = document.getElementById("companyTwitter");
 	twitter.href = employer.twitter;
+	const about = document.getElementById("companyAbout");
+	about.innerText = employer.about;
 }
 
 function renderNumPosts() {
