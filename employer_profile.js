@@ -12,10 +12,10 @@ class EmployerProfile {
 	}
 }
 
-let employer = getEmployerProfile();
+let employer;
 let empJobPosts = [];
 let empJobPostsDiv, empNumPostsSpan, empPostForm;
-let editProfile, submitEdit;
+let editProfileBtn, submitEdit;
 
 function initPage(e) {
 	empJobPostsDiv = document.querySelector("#jobPostings");
@@ -23,12 +23,13 @@ function initPage(e) {
 	empPostForm = document.forms["newJob"];
 
 	empJobPostsDiv.addEventListener("click", jobsClickListener);
-	
-	editProfile = document.getElementById("editCompany");
-	editProfile.addEventListener("click", sendProfile);
+
+	editProfileBtn = document.getElementById("editCompany");
+	editProfileBtn.addEventListener("click", editProfileModalLoad);
 	submitEdit = document.forms["editProfile"];
-	submitEdit.addEventListener("submit", updateCompany);
-	
+	submitEdit.addEventListener("submit", updateEmployerProfile);
+
+	employer = getEmployerProfile();
 	renderEmployerProfile(employer);
 
 	empJobPosts = getCompanyJobPosts(employer.name);
@@ -41,7 +42,7 @@ function initPage(e) {
 
 window.addEventListener("load", initPage);
 
-function updateCompany(e){
+function updateEmployerProfile(e){
 	e.preventDefault();
 	employer.name = newCompanyName.value;
 	employer.location = newCompanyLocation.value;
@@ -50,14 +51,11 @@ function updateCompany(e){
 	employer.instagram = newCompanyInstagram.value;
 	employer.twitter = newCompanyTwitter.value;
 	employer.about = newCompanyAbout.value;
+
+	modifyEmployerProfile(employer);
+
 	renderEmployerProfile(employer);
 	$("#modalEditProfile").modal('hide');
-}
-
-function sendProfile(e){
-	e.preventDefault();
-	
-	fillInInfo(employer);
 }
 
 function createPost(e) {
@@ -106,6 +104,12 @@ function createPost(e) {
 	empJobPosts.push(jobPost);
 	renderJobPost(jobPost, empJobPostsDiv, true);
 	renderNumPosts();
+}
+
+function editProfileModalLoad(e) {
+	e.preventDefault();
+
+	fillInInfo(employer);
 }
 
 function jobsClickListener(e) {
@@ -218,4 +222,10 @@ function getEmployerProfile() {
 		"Suspendisse vitae aliquet lectus."
 	);
 	return employerProfile;
+}
+
+function modifyEmployerProfile(employer) {
+	// Send updated profile info to server
+	// code below requires server call
+	return true;
 }
