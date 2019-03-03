@@ -63,7 +63,7 @@
           <div class="row">
             <div class="col-sm-12 col-md-4">
               <div class="card w-100 mb-3">
-                <h3 class="card-header text-center">Company Profile</h3>
+                <h3 class="card-header text-center">Company Profile <button class="m-1 btn btn-outline-dark" data-toggle="modal" data-target="#modalEditProfile" id="editCompany"><i class="far fas fa-edit"></i></h3>
                 <div class="card-body text-center">
                   <img class="rounded-circle" id="employerProfileBg" src="https://via.placeholder.com/150" />
                   <h1 class="text-muted"><small id="companyName"></small></h1>
@@ -144,6 +144,49 @@
               <label for="newJobDescription">Job Description</label>
               <textarea class="form-control" id="newJobDescription" name="newJobDescription" rows="10" required></textarea>
             </div>
+            <span id="invalidPostSpan" class="text-danger"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+	
+	<div class="modal fade" id="modalEditProfile" tabindex="-1" role="dialog" aria-labelledby="modalCreateEditProfile" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <form name="editProfile">
+          <div class="modal-header">Edit Profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" class="form-control" name="newCompanyName" id="newCompanyName" placeholder="Company Name" required>
+            </div>
+			<div class="form-group">
+              <input type="text" class="form-control" name="newCompanyLocation" id="newCompanyLocation" placeholder=" Company Location" required>
+            </div>
+			<div class="form-group">
+              <input type="text" class="form-control" name="newCompanyEmail" id="newCompanyEmail" placeholder="Company Email" required>
+            </div>
+			<div class="form-group">
+              <input type="text" class="form-control" name="newCompanyName" id="newCompanyFacebook" placeholder="Company Facebook" required>
+            </div>
+			<div class="form-group">
+              <input type="text" class="form-control" name="newCompanyName" id="newCompanyInstagram" placeholder="Company Instagram" required>
+            </div>
+			<div class="form-group">
+              <input type="text" class="form-control" name="newCompanyName" id="newCompanyTwitter" placeholder="Company Twitter" required>
+            </div>
+			<div class="form-group">
+              <textarea class="form-control" name="newCompanyName" id="newCompanyAbout" rows ='10' placeholder="About" required></textarea>
+            </div>
+            
             <span id="invalidPostSpan" class="text-danger"></span>
           </div>
           <div class="modal-footer">

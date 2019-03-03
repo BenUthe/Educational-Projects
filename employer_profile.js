@@ -12,9 +12,10 @@ class EmployerProfile {
 	}
 }
 
-let employer;
+let employer = getEmployerProfile();
 let empJobPosts = [];
 let empJobPostsDiv, empNumPostsSpan, empPostForm;
+let editProfile, submitEdit;
 
 function initPage(e) {
 	empJobPostsDiv = document.querySelector("#jobPostings");
@@ -22,8 +23,12 @@ function initPage(e) {
 	empPostForm = document.forms["newJob"];
 
 	empJobPostsDiv.addEventListener("click", jobsClickListener);
-
-	employer = getEmployerProfile();
+	
+	editProfile = document.getElementById("editCompany");
+	editProfile.addEventListener("click", sendProfile);
+	submitEdit = document.forms["editProfile"];
+	submitEdit.addEventListener("submit", updateCompany);
+	
 	renderEmployerProfile(employer);
 
 	empJobPosts = getCompanyJobPosts(employer.name);
@@ -35,6 +40,25 @@ function initPage(e) {
 }
 
 window.addEventListener("load", initPage);
+
+function updateCompany(e){
+	e.preventDefault();
+	employer.name = newCompanyName.value;
+	employer.location = newCompanyLocation.value;
+	employer.email = newCompanyEmail.value;
+	employer.facebook = newCompanyFacebook.value;
+	employer.instagram = newCompanyInstagram.value;
+	employer.twitter = newCompanyTwitter.value;
+	employer.about = newCompanyAbout.value;
+	renderEmployerProfile(employer);
+	$("#modalEditProfile").modal('hide');
+}
+
+function sendProfile(e){
+	e.preventDefault();
+	
+	fillInInfo(employer);
+}
 
 function createPost(e) {
 	e.preventDefault();
@@ -113,6 +137,23 @@ function renderEmployerProfile(employer){
 	twitter.href = employer.twitter;
 	const about = document.getElementById("companyAbout");
 	about.innerText = employer.about;
+}
+
+function fillInInfo(employerInfo) {
+	const name = document.getElementById("newCompanyName");
+	name.value = employerInfo.name;
+	const locate = document.getElementById("newCompanyLocation");
+	locate.value = employerInfo.location;
+	const email = document.getElementById("newCompanyEmail");
+	email.value = employerInfo.email;
+	const facebook = document.getElementById("newCompanyFacebook");
+	facebook.value = employerInfo.facebook;
+	const instagram = document.getElementById("newCompanyInstagram");
+	instagram.value = employerInfo.instagram;
+	const twitter = document.getElementById("newCompanyTwitter");
+	twitter.value = employerInfo.twitter;
+	const about = document.getElementById("newCompanyAbout");
+	about.value = employerInfo.about;
 }
 
 function renderNumPosts() {
