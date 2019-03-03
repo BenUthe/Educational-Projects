@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="project.css">
+
+    <title>JobSearch:: Job Listings</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#AccountMenu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="AccountMenu">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <button class="m-1 btn btn-outline-success" data-toggle="modal" data-target="#modalCreateJob"><i class="far fa-file-alt"></i> Create Job Posting</button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main role="main">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4 mb-3">JobSearch <sup>&trade;</sup></h1>
+          <ul class="list-group list-group-horizontal-xl">
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span>0</span><br/>
+                <small>Total Active Job Postings</small>
+              </h4>
+            </li>
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span>0</span><br/>
+                <small>Total Job Applications</small>
+              </h4>
+            </li>
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span>0</span><br/>
+                <small>Total Hires</small>
+              </h4>
+            </li>
+          </ul>          
+        </div>
+      </div>
+      <section id="companyDetails">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="card w-100 mb-3">
+                <h3 class="card-header text-center">Company Profile</h3>
+                <div class="card-body text-center">
+                  <img class="rounded-circle" id="employerProfileBg" src="https://via.placeholder.com/150" />
+                  <h1 class="text-muted"><small>Company Name</small></h1>
+                </div>
+              </div>
+              <div class="card w-100 mb-3">
+                <div class="card-body">
+                  <h6 class="mb-3">Location: <button class="btn btn-outline-dark"><i class=" text-danger fas fa-map-marked-alt"></i> Toronto, ON</button></h6>
+                  <h6 class="mb-3">Email: <button class="btn btn-outline-dark"><i class=" text-primary far fa-envelope"></i> email@company.com</button></h6>
+                  <h6 class="">Social: 
+                    <button class="btn btn-outline-dark"><i class=" text-primary fab fa-facebook-square"></i> facebook</button>
+                    <button class="btn btn-outline-dark"><i class=" text-danger fab fa-instagram"></i> Instagram</button>
+                    <button class="btn btn-outline-dark"><i class=" text-info fab fa-twitter"></i> Twitter</button>
+                  </h6>
+                  
+                </div>
+              </div>
+              <div class="card w-100 mb-3">
+                <div class="card-body">
+                  <p class="card-text">
+                    Praesent gravida, ipsum accumsan venenatis congue, nisi est vulputate ipsum, id ultrices libero odio sit amet mi. Fusce eleifend ullamcorper diam quis semper. Sed dictum est at velit congue, ac faucibus urna rutrum. Suspendisse accumsan mattis fringilla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc posuere faucibus hendrerit. Cras sit amet arcu at ex viverra efficitur accumsan id justo. Ut sit amet tincidunt orci. Pellentesque nisl lorem, pulvinar ac dictum sodales, rutrum vel mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec rhoncus diam, sed scelerisque nulla. Suspendisse nec orci nec mauris efficitur porta quis non elit. Mauris et libero a tellus cursus suscipit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div id="jobPostings" class="col-sm-12 col-md-8"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- New Posting Modal -->
+    <div class="modal fade" id="modalCreateJob" tabindex="-1" role="dialog" aria-labelledby="modalCreateJobTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <form name="newJob">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalCreateJobTitle">New Job Posting</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" class="form-control" name="newJobTitle" id="newJobTitle" placeholder="Job Title">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Salary $</span>
+              </div>
+              <input type="text" class="form-control" name="newJobSalary" placeholder="50,000" aria-label="Annual Salary (to the nearest dollar)">
+              <div class="input-group-append">
+                <span class="input-group-text">.00</span>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Location &nbsp; <i class="fas fa-map-marked-alt"></i></span>
+              </div>
+              <input type="text" class="form-control" name="newJobSalary" placeholder="Toronto, ON" aria-label="Location (City, Province)">
+            </div>
+            <div class="form-group">
+              <label for="newJobCategory"><b>Category: </b></label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="newJobCategory" id="newJobCategoryFullTime" value="Full-time">
+                <label class="form-check-label" for="newJobCategoryFullTime">Full-time</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="newJobCategory" id="newJobCategoryPartTime" value="Part-time">
+                <label class="form-check-label" for="newJobCategoryPartTime">Part-time</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="newJobCategory" id="newJobCategoryContract" value="Contract">
+                <label class="form-check-label" for="newJobCategoryContract">Contract</label>
+              </div>
+            </div>            
+            <div class="form-group">
+              <label for="newJobDescription">Job Description</label>
+              <textarea class="form-control" id="newJobDescription" name="newJobDescription" rows="10"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- script type="text/javascript" src="listings.js"></script --> <!-- There's an error here -->
+  </body>
+</html>
