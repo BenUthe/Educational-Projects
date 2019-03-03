@@ -67,13 +67,19 @@ function loginRedirect(e) {
 	
 	if(user === "user" && pass === "user"){
 		window.location.href = "project1.html";
-}
+	}
+	
 	else if(user === "user2" && pass === "user2"){
 		window.location.href = "employer_profile.html";
-}
+	}
+	
 	else if(user === "admin" && pass === "admin"){
 		window.location.href = "admin.html";
-}
+	}
+	
+	else{
+		invalidInput();
+	}
 }
 
 function updateFilterOptions() {
@@ -185,4 +191,10 @@ function renderSalaryValue(elementID, elementType) {
 		destElement.value = srcElement.value.split(',').join('');
 	}
 
+}
+
+function invalidInput(){
+	const error = document.getElementById('invalidEntry');
+	error.setAttribute("class", "text-danger font-italic");
+	error.innerText="Invalid Username/Password";
 }
