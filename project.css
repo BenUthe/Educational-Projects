@@ -1,3 +1,7 @@
 #employerProfileBg{
     top: -70px;
 }
+a.deco-none {
+	text-decoration: none;
+	color: black;
+}
