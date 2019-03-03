@@ -1,8 +1,9 @@
 "use strict";
-class employerProfile {
-	constructor(companyName, locate, email, facebook, instagram, twitter, about) {
-		this.companyName = companyName;
-		this.locate = locate;
+
+class EmployerProfile {
+	constructor(name, location, email, facebook, instagram, twitter, about) {
+		this.name = name;
+		this.location = location;
 		this.email = email;
 		this.facebook = facebook;
 		this.instagram = instagram;
@@ -11,9 +12,9 @@ class employerProfile {
 	}
 }
 
-const employer = "Company 1";
+const employer;
 let empJobPosts = [];
-let empJobPostsDiv, empNumPostsSpan, empPostForm, companyInfo;
+let empJobPostsDiv, empNumPostsSpan, empPostForm;
 
 function initPage(e) {
 	empJobPostsDiv = document.querySelector("#jobPostings");
@@ -22,11 +23,11 @@ function initPage(e) {
 
 	empJobPostsDiv.addEventListener("click", jobsClickListener);
 
-	empJobPosts = getCompanyJobPosts(employer);
+	empJobPosts = getCompanyJobPosts(employer.name);
 	empJobPosts.forEach(job => renderJobPost(job, empJobPostsDiv, true));
-	
-	companyInfo = getCompanyProfile();
-	fillPage(companyInfo);
+
+	employer = getEmployerProfile();
+	renderEmployerProfile(employer);
 
 	renderNumPosts();
 
@@ -66,7 +67,7 @@ function createPost(e) {
 	}
 
 	const jobPost = new JobPost(empPostForm.elements["newJobTitle"].value,
-								employer, salary,
+								employer.name, salary,
 						  		empPostForm.elements["newJobCategory"].value,
 						  		city, province,
 						  		empPostForm.elements["newJobDescription"].value);
@@ -79,7 +80,7 @@ function createPost(e) {
 	clearEmpForm();
 
 	empJobPosts.push(jobPost);
-	renderJobPost(jobPost, empJobPostsDiv);
+	renderJobPost(jobPost, empJobPostsDiv, true);
 	renderNumPosts();
 }
 
@@ -97,6 +98,21 @@ function deletePost(e) {
 }
 
 /** DOM MANIPULATING FUNCTIONS */
+function renderEmployerProfile(employer){
+	const name = document.getElementById("name");
+	name.innerText = employer.name;
+	const location = document.getElementById("location");
+	location.innerText = employer.location;
+	const email = document.getElementById("email");
+	email.innerText = employer.email;
+	const about = document.getElementById("aboutCompany");
+	about.innerText = employer.about;
+	const instagram = document.getElementById("instagram");
+	instagram.href = employer.instagram;
+	const twitter = document.getElementById("twitter");
+	twitter.href = employer.twitter;
+}
+
 function renderNumPosts() {
 	empNumPostsSpan.innerText = empJobPosts.length;
 }
@@ -134,15 +150,14 @@ function deleteJobPost(jobPostID) {
 	return true;
 }
 
-function getCompanyProfile() {
-	// Get job posts of company from server
+function getEmployerProfile() {
+	// Get company profile info from server
 	// code below requires server call
-	// When we write backend code
-	// pagination will be performed
-	// so only a few posts wil be fetched.
-	
-	const employProfile = new employerProfile(
-		"Company Name",
+	// Needs to take a session id or such
+	// as input later on.
+
+	const employerProfile = new EmployerProfile(
+		"Company 1",
 		"Toronto, ON",
 		"email@company.com",
 		"https://www.facebook.com",
@@ -159,19 +174,5 @@ function getCompanyProfile() {
 		"parturient montes, nascetur ridiculus mus. Morbi luctus orci a aliquet malesuada. " +
 		"Suspendisse vitae aliquet lectus."
 	);
-	return employProfile;
-}
-function fillPage(employer){
-	const name = document.getElementById("companyName");
-	name.innerText = employer.companyName;
-	const locate = document.getElementById("locate");
-	locate.innerText = employer.locate;
-	const email = document.getElementById("email");
-	email.innerText = employer.email;
-	const about = document.getElementById("aboutCompany");
-	about.innerText = employer.about;
-	const instagram = document.getElementById("instagram");
-	instagram.href = employer.instagram;
-	const twitter = document.getElementById("twitter");
-	twitter.href = employer.twitter;
+	return employerProfile;
 }
