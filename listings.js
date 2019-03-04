@@ -66,7 +66,7 @@ function loginRedirect(e) {
 	const pass = loginForm.elements["password"].value;
 	
 	if(user === "user" && pass === "user"){
-		window.location.href = "project1.html";
+		window.location.href = "user_profile.html";
 	}
 	
 	else if(user === "user2" && pass === "user2"){
