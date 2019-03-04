@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="project.css">
+
+    <title>JobSearch: User Profile</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#AccountMenu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="AccountMenu">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a href="index.html" class="m-1 btn btn-outline-primary"><i class="fas fa-search"></i> Search Jobs</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main role="main">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4 mb-3"><a href="index.html" class="deco-none">JobSearch <sup>&trade;</sup></a></h1>
+          <ul class="list-group list-group-horizontal-xl">
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span id="numPosts">0</span><br/>
+                <small>Pending Applications</small>
+              </h4>
+            </li>
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span>0</span><br/>
+                <small>Interviews</small>
+              </h4>
+            </li>
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span>0</span><br/>
+                <small>Pending Offers</small>
+              </h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <section id="userDetails">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="card w-100 mb-3 ">
+                <h3 class="card-header text-center">User Profile <button class="m-1 btn btn-outline-dark" data-toggle="modal" data-target="#modalEditProfile" id="editUser"><i class="far fas fa-edit"></i></h3>
+                <div class="card-body text-center">
+                  <img class="rounded-circle" id="userProfileBg" src="https://via.placeholder.com/150" />
+                  <h1 class="text-muted"><small id="userName"></small></h1>
+                </div>
+              </div>
+              <div class="card w-100 mb-3">
+                <div class="card-body">
+                  <h6 class="mb-3">Location: <button class="btn btn-outline-dark"><i class=" text-danger fas fa-map-marked-alt"></i> <span id="companyLocation"></span></button></h6>
+                  <h6 class="mb-3">Email: <button class="btn btn-outline-dark"><i class=" text-primary far fa-envelope"></i> <span id="companyEmail"></span></button></h6>
+                  <h6 class="mb-3">Phone: <button class="btn btn-outline-dark"><i class=" text-primary fas fa-mobile-alt"></i> <span id="companyEmail"></span></button></h6>
+                  <h6 class="">Social:
+                    <a id="companyFacebook" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-primary fab fa-facebook-square"></i> Facebook</button></a>
+                    <a id="companyInstagram" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-danger fab fa-instagram"></i> Instagram</button></a>
+                    <a id="companyTwitter" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-info fab fa-twitter"></i> Twitter</button></a>                    
+                    <a id="companyTwitter" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-primary fab fa-linkedin"></i> Linkedin</button></a>
+                  </h6>
+                </div>
+                <div class="card-footer text-center">
+                  <button class="btn btn-outline-danger"><i class="far fa-file-pdf"></i> View Resume</button>
+                </div>
+              </div>
+            </div>
+            <div id="resumeDetails" class="col-sm-12 col-md-8">
+              <!-- Education Card -->
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">Education</h3>
+                <div class="list-group  list-group-flush">
+                  <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Educational Program 1 |<small class="text-muted"> Name of School Attended</small></h5>
+                      <small class="text-muted">2014-Date</small>
+                    </div>
+                    <p class="mb-1">Accolades, sports, and honours if any</p>
+                  </div>                  
+                  <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Educational Program 2 |<small class="text-muted"> Name of School Attended</small></h5>
+                      <small class="text-muted">2010-2014</small>
+                    </div>
+                    <p class="mb-1">Accolades, sports, and honours if any</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Employment Card -->
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">Employment History</h3>
+                <div class="list-group  list-group-flush">
+                  <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Job Title 1 |<small class="text-muted"> Company 1</small></h5>
+                      <small class="text-muted">2014-Date</small>
+                    </div>
+                    <p class="mb-1">
+                      <ul>
+                        <li>Task 1</li>
+                        <li>Task 2</li>
+                      </ul>
+                    </p>
+                  </div>                  
+                  <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Job Title 2 |<small class="text-muted"> Company 2</small></h5>
+                      <small class="text-muted">2014-Date</small>
+                    </div>
+                    <p class="mb-1">
+                      <ul>
+                        <li>Task 1</li>
+                        <li>Task 2</li>
+                      </ul>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Skills Card -->
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">Skills</h3>
+                <div class="card-body">
+                  <button class="btn btn-outline-primary rounded-pill">Python</button>
+                  <button class="btn btn-outline-primary rounded-pill">Database Administration</button>
+                  <button class="btn btn-outline-primary rounded-pill">Communications</button>
+                  <button class="btn btn-outline-primary rounded-pill">Public Speaking</button>
+                </div>
+              </div>
+              
+              <!-- References Card -->
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">References</h3>
+                <div class="list-group  list-group-flush">
+                  <div class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">Reference 1, <small class="text-muted">Reference's Job</small></h5>
+                    <h6 class="text-muted">
+                      Reference Address |
+                      Reference Phone |
+                      Reference Email
+                    </h6>
+                    <p class="mb-1">Referemce Comments blablabla  </p>
+                  </div>
+                  <div class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">Reference 2, <small class="text-muted">Reference's Job</small></h5>
+                    <h6 class="text-muted">
+                      Reference Address |
+                      Reference Phone |
+                      Reference Email
+                    </h6>
+                    <p class="mb-1">Referemce Comments blablabla  </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+</html>
