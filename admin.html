@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="project.css">
+
+    <title>JobSearch: User Profile</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#AccountMenu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="AccountMenu">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <button class="m-1 btn btn-outline-success" data-toggle="modal" data-target="#modalCreateCompany"><i class="far fa-building"></i> Create Company</button>
+            </li>
+            <li class="nav-item">
+              <button class="m-1 btn btn-outline-success" data-toggle="modal" data-target="#modalCreateJob"><i class="far fa-file-alt"></i> Create Job Posting</button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main role="main">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4 mb-3"><a href="index.html" class="deco-none">JobSearch <sup>&trade;</sup></a></h1>
+          <ul class="list-group list-group-horizontal-xl">
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span id="numPosts">0</span><br/>
+                <small>Total Users</small>
+              </h4>
+            </li>
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span>0</span><br/>
+                <small>Total Companies</small>
+              </h4>
+            </li>
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span>0</span><br/>
+                <small>Total Jobs</small>
+              </h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <section id="adminList">
+        <div class="container">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active" id="nav-users-tab" data-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-users" aria-selected="true">Users</a>
+              <a class="nav-item nav-link" id="nav-companies-tab" data-toggle="tab" href="#nav-companies" role="tab" aria-controls="nav-companies" aria-selected="false">Companies</a>
+              <a class="nav-item nav-link" id="nav-postings-tab" data-toggle="tab" href="#nav-postings" role="tab" aria-controls="nav-postings" aria-selected="false">Job Postings</a>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <!-- Users Tab Content -->
+            <div class="tab-pane fad show active" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
+              <h2 class="my-3">Users</h2>
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  User 1
+                  <span>
+                    <button type="button" class="btn btn-success rounded-circle" data-toggle="tooltip" data-placement="bottom" title="View details of this user including application"><i class="far fa-eye"></i></button>
+                    <button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit details of this user"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete this user and all applications"><i class="fas fa-times"></i></button>
+                  </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  User 2
+                  <span>
+                    <button type="button" class="btn btn-success rounded-circle" data-toggle="tooltip" data-placement="bottom" title="View details of this user including application"><i class="far fa-eye"></i></button>
+                    <button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit details of this user"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete this user and all applications"><i class="fas fa-times"></i></button>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <!-- Companies Tab Content -->
+            <div class="tab-pane fade" id="nav-companies" role="tabpanel" aria-labelledby="nav-companies-tab">
+              <h2 class="my-3">Companies</h2>
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Company 1
+                  <span>
+                    <button type="button" class="btn btn-success rounded-circle" data-toggle="tooltip" data-placement="bottom" title="View details of this company including application"><i class="far fa-eye"></i></button>
+                    <button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit details of this company"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete this company and all job postings"><i class="fas fa-times"></i></button>
+                  </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Company 2
+                  <span>
+                    <button type="button" class="btn btn-success rounded-circle" data-toggle="tooltip" data-placement="bottom" title="View details of this company including application"><i class="far fa-eye"></i></button>
+                    <button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit details of this company"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete this company and all job postings"><i class="fas fa-times"></i></button>
+                  </span>
+                </li>
+              </ul>
+            </div>            
+            <!-- Job Postings Tab Content -->
+            <div class="tab-pane fade" id="nav-postings" role="tabpanel" aria-labelledby="nav-postings-tab">
+              <h2 class="my-3">Job Postings</h2>
+              <div class="card w-100 mb-3">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">Job 1 |<small class="text-muted"> Company 1</small></h5>
+                    <span>
+                      <button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit posting"><i class="fas fa-pen"></i></button>
+                      <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete posting"><i class="fas fa-times"></i></button>
+                    </span>
+                  </div>
+                  <h6 class="card-subtitle mb-2 text-muted">
+                    <button type="button" class="jobSalary btn btn-outline-success mr-2 my-2"><i class="fas fa-money-check-alt"></i> $60000</button>
+                    <button type="button" class="jobLocation btn btn-outline-dark mr-2 my-2"><i class="fas fa-map-marked-alt"></i> Toronto</button>
+                    <button type="button" class="jobCategory btn btn-outline-dark"><i class="fas fa-business-time"></i> Part-Time</button>
+                    
+                  </h6>
+                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel nibh dictum, feugiat nulla ut, feugiat nibh. Integer a scelerisque mauris, quis consequat Nam et enim id velit maximus rutrum. Fusce nec arcu maximus, consequat risu. Quisque sit amet pellentesque est. Fusce tempus consequat scelerisque. Nunc vel convallis tortor. Phasellus ac condimentum eros. In hac habitasse platea dictumst. Vestibulum at semper dolor. Suspendisse facilisis mollis pellentesque. Nam condimentum varius nunc, ut maximus metus molestie eget. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi luctus orci a aliquet malesuada. Suspendisse vitae aliquet lectus.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="JobPost.js"></script>
+    <script type="text/javascript" src="employer_profile.js"></script>
+    
+    <!-- Put this somewhere -->
+    <script type="text/javascript">
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+  </body>
+</html>
