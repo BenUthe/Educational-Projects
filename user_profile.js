@@ -38,7 +38,6 @@ function updateUserProfile(e){
 	user.instagram = document.querySelector("#newUserInstagram").value;
 	user.twitter = document.querySelector("#newUserTwitter").value;
 	user.linkedin = document.querySelector("#newUserLinkedin").value;
-	user.about = document.querySelector("#newUserAbout").value;
 
 	modifyUserProfile(user);
 
