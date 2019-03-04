@@ -1,7 +1,7 @@
 "use strict";
 
 let jobPosts = [];
-let searchForm, categoriesForm, locationsForm, loginForm, jobPostsDiv;
+let searchForm, categoriesForm, locationsForm, loginForm, signUpForm, jobPostsDiv;
 let minSalarySlider, minSalaryText, maxSalarySlider, maxSalaryText;
 
 function initListings(e) {
@@ -16,6 +16,9 @@ function initListings(e) {
 	
 	loginForm = document.forms["loginForm"];
 	loginForm.addEventListener("submit", loginRedirect);
+	
+	signUpForm = document.forms["signUpForm"];
+	signUpForm.addEventListener("submit", signUpRedirect);
 
 
 	jobPostsDiv = document.querySelector("#jobPostings");
@@ -79,6 +82,25 @@ function loginRedirect(e) {
 	
 	else{
 		invalidInput();
+	}
+}
+
+function signUpRedirect(e) {
+	e.preventDefault();
+	
+	const pass1 = signUpForm.elements["password1"].value;
+	const pass2 = signUpForm.elements["password2"].value;
+	
+	if(pass1 === pass2){
+		const error = document.getElementById('invalidEntry1');
+		error.setAttribute("class", "text-success font-italic");
+		error.innerText="User Created[Backend not implemented]";
+	}
+	
+	else{
+		const error = document.getElementById('invalidEntry1');
+		error.setAttribute("class", "text-danger font-italic");
+		error.innerText="Passwords Do Not Match";
 	}
 }
 
