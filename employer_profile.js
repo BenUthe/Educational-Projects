@@ -1,13 +1,15 @@
 "use strict";
 
 class EmployerProfile {
-	constructor(name, location, email, facebook, instagram, twitter, about) {
+	constructor(name, location, email, phone, facebook, instagram, twitter, linkedin, about) {
 		this.name = name;
 		this.location = location;
 		this.email = email;
+		this.phone = phone;
 		this.facebook = facebook;
 		this.instagram = instagram;
 		this.twitter = twitter;
+		this.linkedin = linkedin;
 		this.about = about;
 	}
 }
@@ -44,13 +46,15 @@ window.addEventListener("load", initPage);
 
 function updateEmployerProfile(e){
 	e.preventDefault();
-	employer.name = newCompanyName.value;
-	employer.location = newCompanyLocation.value;
-	employer.email = newCompanyEmail.value;
-	employer.facebook = newCompanyFacebook.value;
-	employer.instagram = newCompanyInstagram.value;
-	employer.twitter = newCompanyTwitter.value;
-	employer.about = newCompanyAbout.value;
+	employer.name = document.querySelector("#newCompanyName").value;
+	employer.location = document.querySelector("#newCompanyLocation").value;
+	employer.email = document.querySelector("#newCompanyEmail").value;
+	employer.phone = document.querySelector("#newCompanyPhone").value;
+	employer.facebook = document.querySelector("#newCompanyFacebook").value;
+	employer.instagram = document.querySelector("#newCompanyInstagram").value;
+	employer.twitter = document.querySelector("#newCompanyTwitter").value;
+	employer.linkedin = document.querySelector("#newCompanyLinkedin").value;
+	employer.about = document.querySelector("#newCompanyAbout").value;
 
 	modifyEmployerProfile(employer);
 
@@ -133,12 +137,16 @@ function renderEmployerProfile(employer){
 	location.innerText = employer.location;
 	const email = document.getElementById("companyEmail");
 	email.innerText = employer.email;
+	const phone = document.getElementById("companyPhone");
+	phone.innerText = employer.phone;
 	const facebook = document.getElementById("companyFacebook");
 	facebook.href = employer.facebook;
 	const instagram = document.getElementById("companyInstagram");
 	instagram.href = employer.instagram;
 	const twitter = document.getElementById("companyTwitter");
 	twitter.href = employer.twitter;
+	const linkedin = document.getElementById("companyLinkedin");
+	linkedin.href = employer.linkedin;
 	const about = document.getElementById("companyAbout");
 	about.innerText = employer.about;
 }
@@ -150,12 +158,16 @@ function fillInInfo(employerInfo) {
 	locate.value = employerInfo.location;
 	const email = document.getElementById("newCompanyEmail");
 	email.value = employerInfo.email;
+	const phone = document.getElementById("newCompanyPhone");
+	phone.value = employerInfo.phone;
 	const facebook = document.getElementById("newCompanyFacebook");
 	facebook.value = employerInfo.facebook;
 	const instagram = document.getElementById("newCompanyInstagram");
 	instagram.value = employerInfo.instagram;
 	const twitter = document.getElementById("newCompanyTwitter");
 	twitter.value = employerInfo.twitter;
+	const linkedin = document.getElementById("newCompanyLinkedin");
+	linkedin.value = employerInfo.linkedin;
 	const about = document.getElementById("newCompanyAbout");
 	about.value = employerInfo.about;
 }
@@ -207,9 +219,11 @@ function getEmployerProfile() {
 		"Company 1",
 		"Toronto, ON",
 		"email@company.com",
+		"(905)-262-6667",
 		"https://www.facebook.com",
 		"https://www.instagram.com",
 		"https://www.twitter.com",
+		"https://www.linkedin.com",
 		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel nibh dictum, " +
 		"feugiat nulla ut, feugiat nibh. Integer a scelerisque mauris, quis consequat " +
 		"Nam et enim id velit maximus rutrum. Fusce nec arcu maximus, consequat risu. " +

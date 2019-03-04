@@ -71,14 +71,14 @@
               </div>
               <div class="card w-100 mb-3">
                 <div class="card-body">
-                  <h6 class="mb-3">Location: <button class="btn btn-outline-dark"><i class=" text-danger fas fa-map-marked-alt"></i> <span id="companyLocation"></span></button></h6>
-                  <h6 class="mb-3">Email: <button class="btn btn-outline-dark"><i class=" text-primary far fa-envelope"></i> <span id="companyEmail"></span></button></h6>
-                  <h6 class="mb-3">Phone: <button class="btn btn-outline-dark"><i class=" text-primary fas fa-mobile-alt"></i> <span id="companyEmail"></span></button></h6>
+                  <h6 class="mb-3">Location: <button class="btn btn-outline-dark"><i class=" text-danger fas fa-map-marked-alt"></i> <span id="userLocation"></span></button></h6>
+                  <h6 class="mb-3">Email: <button class="btn btn-outline-dark"><i class=" text-primary far fa-envelope"></i> <span id="userEmail"></span></button></h6>
+                  <h6 class="mb-3">Phone: <button class="btn btn-outline-dark"><i class=" text-primary fas fa-mobile-alt"></i> <span id="userPhone"></span></button></h6>
                   <h6 class="">Social:
-                    <a id="companyFacebook" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-primary fab fa-facebook-square"></i> Facebook</button></a>
-                    <a id="companyInstagram" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-danger fab fa-instagram"></i> Instagram</button></a>
-                    <a id="companyTwitter" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-info fab fa-twitter"></i> Twitter</button></a>                    
-                    <a id="companyTwitter" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-primary fab fa-linkedin"></i> Linkedin</button></a>
+                    <a id="userFacebook" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-primary fab fa-facebook-square"></i> Facebook</button></a>
+                    <a id="userInstagram" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-danger fab fa-instagram"></i> Instagram</button></a>
+                    <a id="userTwitter" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-info fab fa-twitter"></i> Twitter</button></a>
+                    <a id="userLinkedin" class="deco-none"><button class="btn btn-outline-dark"><i class=" text-primary fab fa-linkedin"></i> Linkedin</button></a>
                   </h6>
                 </div>
                 <div class="card-footer text-center">
@@ -97,7 +97,7 @@
                       <small class="text-muted">2014-Date</small>
                     </div>
                     <p class="mb-1">Accolades, sports, and honours if any</p>
-                  </div>                  
+                  </div>
                   <div class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1">Educational Program 2 |<small class="text-muted"> Name of School Attended</small></h5>
@@ -123,7 +123,7 @@
                         <li>Task 2</li>
                       </ul>
                     </p>
-                  </div>                  
+                  </div>
                   <div class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1">Job Title 2 |<small class="text-muted"> Company 2</small></h5>
@@ -149,7 +149,7 @@
                   <button class="btn btn-outline-primary rounded-pill">Public Speaking</button>
                 </div>
               </div>
-              
+
               <!-- References Card -->
               <div class="card w-100 mb-3">
                 <h3 class="card-header">References</h3>
@@ -161,7 +161,7 @@
                       Reference Phone |
                       Reference Email
                     </h6>
-                    <p class="mb-1">Referemce Comments blablabla  </p>
+                    <p class="mb-1">Reference Comments blablabla  </p>
                   </div>
                   <div class="list-group-item list-group-item-action">
                     <h5 class="mb-1">Reference 2, <small class="text-muted">Reference's Job</small></h5>
@@ -170,7 +170,7 @@
                       Reference Phone |
                       Reference Email
                     </h6>
-                    <p class="mb-1">Referemce Comments blablabla  </p>
+                    <p class="mb-1">Reference Comments blablabla  </p>
                   </div>
                 </div>
               </div>
@@ -179,4 +179,54 @@
         </div>
       </section>
     </main>
+    <div class="modal fade" id="modalEditProfile" tabindex="-1" role="dialog" aria-labelledby="modalCreateEditProfile" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <form name="editProfile">
+          <div class="modal-header">Edit Profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" class="form-control" name="newUserName" id="newUserName" placeholder="Firstname Lastname" required>
+            </div>
+      <div class="form-group">
+              <input type="text" class="form-control" name="newUserLocation" id="newUserLocation" placeholder="City, Province" required>
+            </div>
+      <div class="form-group">
+              <input type="text" class="form-control" name="newUserEmail" id="newUserEmail" placeholder="Email" required>
+            </div>
+      <div class="form-group">
+              <input type="text" class="form-control" name="newUserPhone" id="newUserPhone" placeholder="Phone #" required>
+            </div>
+      <div class="form-group">
+              <input type="text" class="form-control" name="newUserFacebook" id="newUserFacebook" placeholder="Facebook profile link" required>
+            </div>
+      <div class="form-group">
+              <input type="text" class="form-control" name="newUserInstagram" id="newUserInstagram" placeholder="Instagram profile link" required>
+            </div>
+      <div class="form-group">
+              <input type="text" class="form-control" name="newUserTwitter" id="newUserTwitter" placeholder="Twitter profile link" required>
+            </div>
+      <div class="form-group">
+              <input type="text" class="form-control" name="newUserLinkedin" id="newUserLinkedin" placeholder="Linkedin profile link" required>
+            </div>
+
+            <span id="invalidPostSpan" class="text-danger"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="user_profile.js"></script>
 </html>
