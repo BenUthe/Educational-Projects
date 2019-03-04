@@ -140,12 +140,16 @@ function renderEmployerProfile(employer){
 	const phone = document.getElementById("companyPhone");
 	phone.innerText = employer.phone;
 	const facebook = document.getElementById("companyFacebook");
+	facebook.hidden = employer.facebook==="";
 	facebook.href = employer.facebook;
 	const instagram = document.getElementById("companyInstagram");
+	instagram.hidden = employer.instagram==="";
 	instagram.href = employer.instagram;
 	const twitter = document.getElementById("companyTwitter");
+	twitter.hidden = employer.twitter==="";
 	twitter.href = employer.twitter;
 	const linkedin = document.getElementById("companyLinkedin");
+	linkedin.hidden = employer.linkedin==="";
 	linkedin.href = employer.linkedin;
 	const about = document.getElementById("companyAbout");
 	about.innerText = employer.about;

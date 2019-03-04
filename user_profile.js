@@ -62,12 +62,16 @@ function renderUserProfile(user){
 	const phone = document.getElementById("userPhone");
 	phone.innerText = user.phone;
 	const facebook = document.getElementById("userFacebook");
+	facebook.hidden = user.facebook==="";
 	facebook.href = user.facebook;
 	const instagram = document.getElementById("userInstagram");
+	instagram.hidden = user.instagram==="";
 	instagram.href = user.instagram;
 	const twitter = document.getElementById("userTwitter");
+	twitter.hidden = user.twitter==="";
 	twitter.href = user.twitter;
 	const linkedin = document.getElementById("userLinkedin");
+	linkedin.hidden = user.linkedin==="";
 	linkedin.href = user.linkedin;
 }
 
