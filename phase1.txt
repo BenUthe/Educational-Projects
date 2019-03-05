@@ -17,17 +17,18 @@ opens a menu to sign up for an account. This will use the server to create users
 The login button will direct to the correct user page if the credentials are correct.
 
 Admin page:
-The admin has the ability to delete/view users, companies and posts. There may be additional functionality for admins to create and edit posts, users and companies later on. Currently, the delete function deletes them from 
-the list but will require the server to actually save any of these changes. Deleting a company does not currently delete their posts, but this can be added later on.
+The admin has the ability to delete/view users, companies and posts. There may be additional functionality for admins to create and edit posts, users and companies later on, although since this is not a required feature for the admin, it 
+was left out of phase one. Currently, the delete function deletes them from the list but will require the server to actually save any of these changes. Deleting a company does not currently delete their posts, but this will be added later on.
 
 User page:
 The user profile has all of the information about a user including contact info, and also displays the users resume both on the page and by a button. The button redirects to the pdf of the resume and all of the social links redirect
-appropriately. Currently, there is no ability to upload a resume or profile picture as that requires the server to store the information. The resume on the page is not currently editable, but this functionality may be added later on.
-There is a logout button that logs the user out, and also a search for jobs page that returns to the main page but also logs the user out as currently there is no way to track if a user is logged in across pages. There is an edit button
-by the user profile which allows the user to edit all of their about information, some of which is required and some of which is not. If a social link is not added, then the button will disappear when the user saves the changes.
+appropriately. Currently, there is no ability to upload a resume or profile picture as that requires the server to store the information. The resume on the page is not currently editable due to time constraints, but this functionality 
+will be added for phase 2. There is a logout button that logs the user out, and also a search for jobs page that returns to the main page but also logs the user out as currently there is no way to track if a user is logged in across pages. 
+There is an edit button by the user profile which allows the user to edit all of their about information, some of which is required and some of which is not. If a social link is not added, then the button will disappear when the user 
+saves the changes.
 
 Company page:
 The company page is similar to the user the page although instead of a resume they have their specific job posts listed on the page. The company has the ability to delete their posts directly from their page. They also have an
 edit button that works similarly to the user that allows them to edit their company information. At the top of the page there is a button to create a job posting which allows the company to put in all of the required information and 
-then publish the post, which then adds it to their page. Eventually it will be passed to the server which will allow the job post to show up on the main page as well. There may be an additional feature added later to allow a company
-to edit their postings instead of having to delete them and create a new post to replace it.
+then publish the post, which then adds it to their page. Eventually it will be passed to the server which will allow the job post to show up on the main page as well. There will be an additional feature added later to allow a company
+to edit their postings instead of having to delete them and create a new post to replace it, although due to time constraints this was not added for phase 1.
