@@ -42,19 +42,19 @@
           <ul class="list-group list-group-horizontal-xl">
             <li class="list-group-item text-center m-3">
               <h4>
-                <span id="numPosts">0</span><br/>
+                <span id="numUsers">0</span><br/>
                 <small>Total Users</small>
               </h4>
             </li>
             <li class="list-group-item text-center m-3">
               <h4>
-                <span>0</span><br/>
+                <span id="numCompanies">0</span><br/>
                 <small>Total Companies</small>
               </h4>
             </li>
             <li class="list-group-item text-center m-3">
               <h4>
-                <span>0</span><br/>
+                <span id="numPosts">0</span><br/>
                 <small>Total Jobs</small>
               </h4>
             </li>
@@ -75,68 +75,17 @@
             <!-- Users Tab Content -->
             <div class="tab-pane fad show active" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
               <h2 class="my-3">Users</h2>
-              <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  User 1
-                  <span>
-                    <a href="user_profile.html"><button type="button" class="btn btn-success rounded-circle" data-toggle="tooltip" data-placement="bottom" title="View user profile"><i class="far fa-eye"></i></button></a>
-                    <!--<button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit details of this user"><i class="fas fa-pen"></i></button>-->
-                    <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete this user"><i class="fas fa-times"></i></button>
-                  </span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  User 2
-                  <span>
-                    <button type="button" class="btn btn-success rounded-circle" data-toggle="tooltip" data-placement="bottom" title="View user profile"><i class="far fa-eye"></i></button>
-                    <!--<button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit details of this user"><i class="fas fa-pen"></i></button>-->
-                    <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete this user"><i class="fas fa-times"></i></button>
-                  </span>
-                </li>
-              </ul>
+              <ul id="users" class="list-group"></ul>
             </div>
             <!-- Companies Tab Content -->
             <div class="tab-pane fade" id="nav-companies" role="tabpanel" aria-labelledby="nav-companies-tab">
               <h2 class="my-3">Companies</h2>
-              <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 1
-                  <span>
-                    <a href ="employer_profile.html"><button type="button" class="btn btn-success rounded-circle" data-toggle="tooltip" data-placement="bottom" title="View company profile"><i class="far fa-eye"></i></button></a>
-                    <!--<button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit details of this company"><i class="fas fa-pen"></i></button>-->
-                    <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete this company"><i class="fas fa-times"></i></button>
-                  </span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Company 2
-                  <span>
-                    <button type="button" class="btn btn-success rounded-circle" data-toggle="tooltip" data-placement="bottom" title="View company profile"><i class="far fa-eye"></i></button>
-                    <!--<button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit details of this company"><i class="fas fa-pen"></i></button>-->
-                    <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete this company"><i class="fas fa-times"></i></button>
-                  </span>
-                </li>
-              </ul>
-            </div>            
+              <ul id="companies" class="list-group"></ul>
+            </div>
             <!-- Job Postings Tab Content -->
             <div class="tab-pane fade" id="nav-postings" role="tabpanel" aria-labelledby="nav-postings-tab">
               <h2 class="my-3">Job Postings</h2>
-              <div class="card w-100 mb-3">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="card-title">Job 1 |<small class="text-muted"> Company 1</small></h5>
-                    <span>
-                      <button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit posting"><i class="fas fa-pen"></i></button>
-                      <button type="button" class="btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete posting"><i class="fas fa-times"></i></button>
-                    </span>
-                  </div>
-                  <h6 class="card-subtitle mb-2 text-muted">
-                    <button type="button" class="jobSalary btn btn-outline-success mr-2 my-2"><i class="fas fa-money-check-alt"></i> $60000</button>
-                    <button type="button" class="jobLocation btn btn-outline-dark mr-2 my-2"><i class="fas fa-map-marked-alt"></i> Toronto</button>
-                    <button type="button" class="jobCategory btn btn-outline-dark"><i class="fas fa-business-time"></i> Part-Time</button>
-                    
-                  </h6>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel nibh dictum, feugiat nulla ut, feugiat nibh. Integer a scelerisque mauris, quis consequat Nam et enim id velit maximus rutrum. Fusce nec arcu maximus, consequat risu. Quisque sit amet pellentesque est. Fusce tempus consequat scelerisque. Nunc vel convallis tortor. Phasellus ac condimentum eros. In hac habitasse platea dictumst. Vestibulum at semper dolor. Suspendisse facilisis mollis pellentesque. Nam condimentum varius nunc, ut maximus metus molestie eget. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi luctus orci a aliquet malesuada. Suspendisse vitae aliquet lectus.</p>
-                </div>
-              </div>
+              <div id="jobPostings"></div>
             </div>
           </div>
         </div>
@@ -150,13 +99,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="JobPost.js"></script>
-    <script type="text/javascript" src="employer_profile.js"></script>
-    
-    <!-- Put this somewhere -->
-    <script type="text/javascript">
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      })
-    </script>
+    <script type="text/javascript" src="admin.js"></script>
   </body>
 </html>

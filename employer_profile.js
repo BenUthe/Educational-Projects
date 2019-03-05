@@ -200,19 +200,6 @@ function removePostDiv(postDiv) {
 }
 
 /** BACKEND INVOLVING FUNCTIONS */
-function createJobPost(jobPost) {
-	// Should send the new post entry to the server
-	// so the server can store the entry in the db
-	// code below requires server call
-	return true;
-}
-
-function deleteJobPost(jobPostID) {
-	// Should delete the given job post from db
-	// code below requires server call
-	return true;
-}
-
 function getEmployerProfile() {
 	// Get company profile info from server
 	// code below requires server call

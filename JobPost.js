@@ -17,12 +17,15 @@ function renderJobPost(jobPost, jobPostsDiv, manageable=false) {
 	const postDiv = document.createElement("div");
 	postDiv.className = "card w-100 mb-3";
 	postDiv.innerHTML = `<div class="card-body">
-	      <h5 class="card-title">${jobPost.title} |<small class="text-muted"> ${jobPost.company}</small></h5>
+	      <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title">${jobPost.title} |<small class="text-muted"> ${jobPost.company}</small></h5>
+              <!--<button type="button" class="btn btn-primary rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Edit post"><i class="fas fa-pen"></i></button>-->
+              ${manageable ? '<button type="button" class="delete btn btn-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" title="Delete post"><i class="no-click fas fa-times"></i></button>' : ""}
+          </div>
 	      <h6 class="card-subtitle mb-2 text-muted">
 	        <button type="button" class="jobSalary btn btn-outline-success mr-2 my-2"><i class="fas fa-money-check-alt"></i> $${jobPost.salary}</button>
 	        <button type="button" class="jobLocation btn btn-outline-dark mr-2 my-2"><i class="fas fa-map-marked-alt"></i> ${jobPost.city}</button>
 	        <button type="button" class="jobCategory btn btn-outline-dark"><i class="fas fa-business-time"></i> ${jobPost.time}</button>
-	        ${manageable ? '<button type="button" class="delete btn btn-outline-dark float-right"><i class="fas fa-trash"></i> Delete Post</button>' : ""}
 	      </h6>
 	      <p class="card-text">${jobPost.desc}</p>
 	      <a href="#" class="btn btn-primary">Go somewhere</a>
@@ -39,6 +42,19 @@ function clearJobPosts(jobPostsDiv) {
 }
 
 /** BACKEND INVOLVING FUNCTIONS */
+function createJobPost(jobPost) {
+	// Should send the new post entry to the server
+	// so the server can store the entry in the db
+	// code below requires server call
+	return true;
+}
+
+function deleteJobPost(jobPostID) {
+	// Should delete the given job post from db
+	// code below requires server call
+	return true;
+}
+
 function getAllJobPosts() {
 	// Get all job posts from server
 	// code below requires server call.
