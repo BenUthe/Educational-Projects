@@ -84,16 +84,16 @@ app.post('/users/login', (req, res) => {
 
 	User.findByUsernamePassword(username, password).then((user) => {
 		if(!user) {
-			res.redirect('/')
+			res.status(400).send({error: "Invalid username/password."});
 		} else {
 			// Add the user to the session cookie that we will
 			// send to the client
 			req.session.user = user._id;
-			req.session.utype = user.utype
-			res.redirect('/dashboard')
+			req.session.utype = user.utype;
+			res.send({redirect: '/dashboard'})
 		}
 	}).catch((error) => {
-		res.status(400).redirect('/')
+		res.status(400).send({error: "Invalid username/password."});
 	})
 })
 
@@ -242,9 +242,19 @@ app.post('/users', (req, res) => {
 
 	// save user to database
 	user.save().then((result) => {
-		res.redirect('dashboard')
+		req.session.user = result._id;
+		req.session.utype = result.utype;
+		res.send({redirect: "/dashboard"});
 	}, (error) => {
-		res.status(400).send(error) // 400 for bad request
+		if(error.code === 11000) {
+			const [_, field] = error.errmsg.match(/index:\s([a-z]+).*"/i);
+			res.status(400).send({error: `${field.charAt(0).toUpperCase() + field.slice(1)} in use.`});
+		} else if(error.message.startsWith("User validation failed: ")) {
+			const [_, message] = error.message.match(/User validation failed\: .+\: (.*)$/i);
+			res.status(400).send({error: message});
+		} else {
+			res.status(400).send({error: "Something went wrong."});
+		}
 	})
 
 })

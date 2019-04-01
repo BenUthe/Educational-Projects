@@ -84,13 +84,15 @@ function loginRedirect(e) {
     .then(function(res) {
         // Handle response we get from the API
         // Usually check the error codes to see what happened
-        if (res.status === 200) {
-        	console.log(res)
-            window.location.href = res.url
-        } else {
-        	invalidInput();
-        }
-    }).catch((error) => {
+        return res.json()
+    })
+    .then((json) => {
+    	if(json.error)
+    		invalidInput('invalidEntry', json.error);
+    	else if(json.redirect)
+    		window.location.href = json.redirect;
+    })
+    .catch((error) => {
         console.log(error)
     })
 }
@@ -119,21 +121,20 @@ function signUpRedirect(e) {
 	    .then(function(res) {
 	        // Handle response we get from the API
 	        // Usually check the error codes to see what happened
-	        if (res.status === 200) {
-	            console.log('Signed up!!!');
-	            console.log(res)
-            	window.location.href = res.url
-
-	        } else {
-	        	console.log("FAIL");
-	        }
-	    }).catch((error) => {
+	        return res.json();
+	    })
+	    .then((json) => {
+	    	console.log(json);
+	    	if(json.error)
+	    		invalidInput('invalidEntry1', json.error);
+	    	else if(json.redirect)
+	    		window.location.href = json.redirect;
+	    })
+	    .catch((error) => {
 	        console.log(error);
 	    })
 	} else {
-		const error = document.getElementById('invalidEntry1');
-		error.setAttribute("class", "text-danger font-italic");
-		error.innerText="Passwords Do Not Match";
+		invalidInput('invalidEntry1', "Passwords Do Not Match");
 	}
 }
 
@@ -248,8 +249,8 @@ function renderSalaryValue(elementID, elementType) {
 
 }
 
-function invalidInput(){
-	const error = document.getElementById('invalidEntry');
+function invalidInput(inputID, message) {
+	const error = document.getElementById(inputID);
 	error.setAttribute("class", "text-danger font-italic");
-	error.innerText="Invalid Username/Password";
+	error.innerText=message;
 }
