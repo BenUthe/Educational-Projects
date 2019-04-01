@@ -13,10 +13,10 @@ function initListings(e) {
 
 	locationsForm = document.forms["filterLocations"];
 	locationsForm.addEventListener("change", filterPosts);
-	
+
 	loginForm = document.forms["loginForm"];
 	loginForm.addEventListener("submit", loginRedirect);
-	
+
 	signUpForm = document.forms["signUpForm"];
 	signUpForm.addEventListener("submit", signUpRedirect);
 
@@ -64,40 +64,73 @@ function searchJobs(e) {
 
 function loginRedirect(e) {
 	e.preventDefault();
-	
-	const user = loginForm.elements["username"].value;
-	const pass = loginForm.elements["password"].value;
-	
-	if(user === "user" && pass === "user"){
-		window.location.href = "user_profile.html";
-	}
-	
-	else if(user === "user2" && pass === "user2"){
-		window.location.href = "employer_profile.html";
-	}
-	
-	else if(user === "admin" && pass === "admin"){
-		window.location.href = "admin.html";
-	}
-	
-	else{
-		invalidInput();
-	}
+
+	const username = loginForm.elements["username"].value;
+	const password = loginForm.elements["password"].value;
+
+	const url = '/users/login';
+    // The data we are going to send in our request
+    let data = {username, password}
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+    fetch(request)
+    .then(function(res) {
+        // Handle response we get from the API
+        // Usually check the error codes to see what happened
+        if (res.status === 200) {
+        	console.log(res)
+            window.location.href = res.url
+        } else {
+        	invalidInput();
+        }
+    }).catch((error) => {
+        console.log(error)
+    })
 }
 
 function signUpRedirect(e) {
 	e.preventDefault();
-	
-	const pass1 = signUpForm.elements["password1"].value;
-	const pass2 = signUpForm.elements["password2"].value;
-	
-	if(pass1 === pass2){
-		const error = document.getElementById('invalidEntry1');
-		error.setAttribute("class", "text-success font-italic");
-		error.innerText="User Created[Backend not implemented]";
-	}
-	
-	else{
+
+	const username = signUpForm.elements["username1"].value;
+	const email = signUpForm.elements["email1"].value;
+	const password = signUpForm.elements["password1"].value;
+	const password2 = signUpForm.elements["password2"].value;
+	const utype = signUpForm.elements["newUser"].value;
+
+	if(password === password2) {
+		const url = '/users';
+	    let data = {username, password, email, utype};
+	    const request = new Request(url, {
+	        method: 'post',
+	        body: JSON.stringify(data),
+	        headers: {
+	            'Accept': 'application/json, text/plain, */*',
+	            'Content-Type': 'application/json'
+	        },
+	    });
+	    fetch(request)
+	    .then(function(res) {
+	        // Handle response we get from the API
+	        // Usually check the error codes to see what happened
+	        if (res.status === 200) {
+	            console.log('Signed up!!!');
+	            console.log(res)
+            	window.location.href = res.url
+
+	        } else {
+	        	console.log("FAIL");
+	        }
+	    }).catch((error) => {
+	        console.log(error);
+	    })
+	} else {
 		const error = document.getElementById('invalidEntry1');
 		error.setAttribute("class", "text-danger font-italic");
 		error.innerText="Passwords Do Not Match";
