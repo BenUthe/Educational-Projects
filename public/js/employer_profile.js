@@ -14,12 +14,13 @@ class EmployerProfile {
 	}
 }
 
-let employer;
+let whoami;
+let employerID, employer;
 let empJobPosts = [];
 let empJobPostsDiv, empNumPostsSpan, empPostForm;
 let editProfileBtn, submitEdit;
 
-function initPage(e) {
+async function initPage(e) {
 	empJobPostsDiv = document.querySelector("#jobPostings");
 	empNumPostsSpan = document.querySelector("#numPosts");
 	empPostForm = document.forms["newJob"];
@@ -27,15 +28,17 @@ function initPage(e) {
 	empJobPostsDiv.addEventListener("click", jobsClickListener);
 
 	editProfileBtn = document.getElementById("editCompany");
-	editProfileBtn.addEventListener("click", editProfileModalLoad);
+	if(editProfileBtn) editProfileBtn.addEventListener("click", editProfileModalLoad);
 	submitEdit = document.forms["editProfile"];
 	submitEdit.addEventListener("submit", updateEmployerProfile);
 
-	employer = getEmployerProfile();
+	whoami = document.getElementById("whoami").value;
+	employerID = document.getElementById("employerID").value;
+	employer = await getUserProfile(employerID);
 	renderEmployerProfile(employer);
 
-	empJobPosts = getCompanyJobPosts(employer.name);
-	empJobPosts.forEach(job => renderJobPost(job, empJobPostsDiv, true));
+	empJobPosts = await getCompanyJobPosts(employerID);
+	empJobPosts.forEach(job => renderJobPost(job, empJobPostsDiv, whoami===employerID));
 
 	renderNumPosts();
 
@@ -44,69 +47,52 @@ function initPage(e) {
 
 window.addEventListener("load", initPage);
 
-function updateEmployerProfile(e){
+async function updateEmployerProfile(e){
 	e.preventDefault();
-	employer.name = document.querySelector("#newCompanyName").value;
-	employer.location = document.querySelector("#newCompanyLocation").value;
-	employer.email = document.querySelector("#newCompanyEmail").value;
-	employer.phone = document.querySelector("#newCompanyPhone").value;
-	employer.facebook = document.querySelector("#newCompanyFacebook").value;
-	employer.instagram = document.querySelector("#newCompanyInstagram").value;
-	employer.twitter = document.querySelector("#newCompanyTwitter").value;
-	employer.linkedin = document.querySelector("#newCompanyLinkedin").value;
-	employer.about = document.querySelector("#newCompanyAbout").value;
-
-	modifyEmployerProfile(employer);
-
+	const updated = {
+		name: document.querySelector("#newCompanyName").value,
+		location: document.querySelector("#newCompanyLocation").value,
+		email: document.querySelector("#newCompanyEmail").value,
+		phone: document.querySelector("#newCompanyPhone").value,
+		facebook: document.querySelector("#newCompanyFacebook").value,
+		instagram: document.querySelector("#newCompanyInstagram").value,
+		twitter: document.querySelector("#newCompanyTwitter").value,
+		linkedin: document.querySelector("#newCompanyLinkedin").value,
+		about: document.querySelector("#newCompanyAbout").value
+	}
+	const res = await modifyUserProfile(updated);
+	if(res.error) {
+		renderProfileErr(res.error);
+		return;
+	}
+	employer = updated;
 	renderEmployerProfile(employer);
 	$("#modalEditProfile").modal('hide');
 }
 
-function createPost(e) {
+async function createPost(e) {
 	e.preventDefault();
 
-	// TODO: more rigorous validation
-	// TODO: refactor this elsewhere
-	// (probably to server side, as client side JS can be bypassed)
-	let salary, city, province;
-	try {
-		let salaryStr = empPostForm.elements["newJobSalary"].value;
-		salaryStr = salaryStr.replace(/[^\d\.\-]/g, "");
-		salary = parseInt(salaryStr);
-		if(salary < 0 || isNaN(salary) || !isFinite(salary))
-			throw "Negative Salary forbidden";
-	} catch {
-		renderEmpFormErr("Please enter a valid salary.");
-		return;
-	}
+	const jobPost = {
+		title: empPostForm.elements["newJobTitle"].value,
+		salary: empPostForm.elements["newJobSalary"].value,
+		province: empPostForm.elements["newJobState"].value,
+		city: empPostForm.elements["newJobCity"].value,
+		category: empPostForm.elements["newJobCategory"].value,
+		desc: empPostForm.elements["newJobDescription"].value,
+		url: empPostForm.elements["newJobUrl"].value,
+	};
 
-	try {
-		const locArr = empPostForm.elements["newJobLocation"].value.trim().split(",");
-		if(locArr.length !== 2 || !locArr[1].trim())
-			throw "Invalid location";
-
-		city = locArr[0].trim();
-		province = locArr[1].trim();
-	} catch {
-		renderEmpFormErr("Please enter a valid location (city, province)");
-		return;
-	}
-
-	const jobPost = new JobPost(empPostForm.elements["newJobTitle"].value,
-								employer.name, salary,
-						  		empPostForm.elements["newJobCategory"].value,
-						  		city, province,
-						  		empPostForm.elements["newJobDescription"].value);
-
-	if(!createJobPost(jobPost)) {
-		renderEmpFormErr("ERROR: storing new job post failed.");
+	const res = await createJobPost(jobPost);
+	if(res.error) {
+		renderEmpFormErr(res.error);
 		return;
 	}
 
 	clearEmpForm();
 
-	empJobPosts.push(jobPost);
-	renderJobPost(jobPost, empJobPostsDiv, true);
+	empJobPosts.push(res);
+	renderJobPost(res, empJobPostsDiv, whoami===employerID);
 	renderNumPosts();
 }
 
@@ -116,15 +102,16 @@ function editProfileModalLoad(e) {
 	fillInInfo(employer);
 }
 
-function jobsClickListener(e) {
+async function jobsClickListener(e) {
 	if(e.target.classList.contains("delete"))
-		deletePost(e);
+		await deletePost(e);
 }
 
-function deletePost(e) {
+async function deletePost(e) {
 	const postDiv = e.target.parentElement.parentElement.parentElement;
 	const idx = Array.prototype.indexOf.call(empJobPostsDiv.children, postDiv);
-	deleteJobPost(empJobPosts[idx].id);
+	const deleted = await deleteJobPost(empJobPosts[idx]._id);
+	if(!deleted) return;
 	empJobPosts.splice(idx, 1);
 	removePostDiv(postDiv);
 }
@@ -140,44 +127,48 @@ function renderEmployerProfile(employer){
 	const phone = document.getElementById("companyPhone");
 	phone.innerText = employer.phone;
 	const facebook = document.getElementById("companyFacebook");
-	facebook.hidden = employer.facebook==="";
-	facebook.href = employer.facebook;
+	facebook.hidden = !employer.facebook || employer.facebook==="";
+	facebook.href = "http://" + employer.facebook;
 	const instagram = document.getElementById("companyInstagram");
-	instagram.hidden = employer.instagram==="";
-	instagram.href = employer.instagram;
+	instagram.hidden = !employer.instagram || employer.instagram==="";
+	instagram.href = "http://" + employer.instagram;
 	const twitter = document.getElementById("companyTwitter");
-	twitter.hidden = employer.twitter==="";
-	twitter.href = employer.twitter;
+	twitter.hidden = !employer.twitter || employer.twitter==="";
+	twitter.href = "http://" + employer.twitter;
 	const linkedin = document.getElementById("companyLinkedin");
-	linkedin.hidden = employer.linkedin==="";
-	linkedin.href = employer.linkedin;
+	linkedin.hidden = !employer.linkedin || employer.linkedin==="";
+	linkedin.href = "http://" + employer.linkedin;
 	const about = document.getElementById("companyAbout");
-	about.innerText = employer.about;
+	about.innerText = employer.about ? employer.about : "";
 }
 
 function fillInInfo(employerInfo) {
 	const name = document.getElementById("newCompanyName");
-	name.value = employerInfo.name;
+	name.value = employerInfo.name || "";
 	const locate = document.getElementById("newCompanyLocation");
-	locate.value = employerInfo.location;
+	locate.value = employerInfo.location || "";
 	const email = document.getElementById("newCompanyEmail");
-	email.value = employerInfo.email;
+	email.value = employerInfo.email || "";
 	const phone = document.getElementById("newCompanyPhone");
-	phone.value = employerInfo.phone;
+	phone.value = employerInfo.phone || "";
 	const facebook = document.getElementById("newCompanyFacebook");
-	facebook.value = employerInfo.facebook;
+	facebook.value = employerInfo.facebook || "";
 	const instagram = document.getElementById("newCompanyInstagram");
-	instagram.value = employerInfo.instagram;
+	instagram.value = employerInfo.instagram || "";
 	const twitter = document.getElementById("newCompanyTwitter");
-	twitter.value = employerInfo.twitter;
+	twitter.value = employerInfo.twitter || "";
 	const linkedin = document.getElementById("newCompanyLinkedin");
-	linkedin.value = employerInfo.linkedin;
+	linkedin.value = employerInfo.linkedin || "";
 	const about = document.getElementById("newCompanyAbout");
-	about.value = employerInfo.about;
+	about.value = employerInfo.about || "";
 }
 
 function renderNumPosts() {
 	empNumPostsSpan.innerText = empJobPosts.length;
+}
+
+function renderProfileErr(errText) {
+	document.querySelector("#invalidProfileSpan").innerText = errText;
 }
 
 function renderEmpFormErr(errText) {
@@ -187,7 +178,9 @@ function renderEmpFormErr(errText) {
 function clearEmpForm() {
 	empPostForm.elements["newJobTitle"].value = "";
 	empPostForm.elements["newJobSalary"].value = "";
-	empPostForm.elements["newJobLocation"].value = "";
+	empPostForm.elements["newJobState"].value = undefined;
+	empPostForm.elements["newJobCity"].value = undefined;
+	empPostForm.elements["newJobUrl"].value = "";
 	empPostForm.elements["newJobCategory"].value = undefined;
 	empPostForm.elements["newJobDescription"].value = "";
 	document.querySelector("#invalidPostSpan").innerText = "";
@@ -197,40 +190,4 @@ function clearEmpForm() {
 function removePostDiv(postDiv) {
 	empJobPostsDiv.removeChild(postDiv);
 	renderNumPosts();
-}
-
-/** BACKEND INVOLVING FUNCTIONS */
-function getEmployerProfile() {
-	// Get company profile info from server
-	// code below requires server call
-	// Needs to take a session id or such
-	// as input later on.
-
-	const employerProfile = new EmployerProfile(
-		"Company 1",
-		"Toronto, ON",
-		"email@company.com",
-		"(905)-262-6667",
-		"https://www.facebook.com",
-		"https://www.instagram.com",
-		"https://www.twitter.com",
-		"https://www.linkedin.com",
-		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel nibh dictum, " +
-		"feugiat nulla ut, feugiat nibh. Integer a scelerisque mauris, quis consequat " +
-		"Nam et enim id velit maximus rutrum. Fusce nec arcu maximus, consequat risu. " +
-		"Quisque sit amet pellentesque est. Fusce tempus consequat scelerisque. " +
-		"Nunc vel convallis tortor. Phasellus ac condimentum eros. " +
-		"In hac habitasse platea dictumst. Vestibulum at semper dolor. " +
-		"Suspendisse facilisis mollis pellentesque. Nam condimentum varius nunc, " +
-		"ut maximus metus molestie eget. Orci varius natoque penatibus et magnis dis " +
-		"parturient montes, nascetur ridiculus mus. Morbi luctus orci a aliquet malesuada. " +
-		"Suspendisse vitae aliquet lectus."
-	);
-	return employerProfile;
-}
-
-function modifyEmployerProfile(employer) {
-	// Send updated profile info to server
-	// code below requires server call
-	return true;
 }

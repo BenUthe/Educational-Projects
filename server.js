@@ -56,8 +56,12 @@ const sessionChecker = (req, res, next) => {
 	}
 }
 
-app.get('/', sessionChecker, (req, res) => {
-	res.sendFile(__dirname + '/public/index.html')
+app.get('/', (req, res) => {
+	//res.sendFile(__dirname + '/public/index.html')
+	res.render('index.hbs', {
+		loggedin: req.session.user,
+		name: req.session.user && req.session.name
+	})
 })
 
 app.get('/dashboard', (req, res) => {
@@ -65,7 +69,14 @@ app.get('/dashboard', (req, res) => {
 	if (req.session.user) {
 		//res.sendFile(__dirname + '/public/dashboard.html')
 		if(req.session.utype === "Employer") {
-			res.sendFile(__dirname + '/public/employer_profile.html')
+			//res.sendFile(__dirname + '/public/employer_profile.html')
+			res.render('employer.hbs', {
+				loggedin: true,
+				owner: true,
+				name: req.session.name,
+				employerID: req.session.user,
+				whoami: req.session.user
+			})
 		} else if(req.session.utype === "Applicant") {
 			res.sendFile(__dirname + '/public/user_profile.html')
 		} else {
@@ -90,6 +101,7 @@ app.post('/users/login', (req, res) => {
 			// send to the client
 			req.session.user = user._id;
 			req.session.utype = user.utype;
+			req.session.name = user.profile.name;
 			res.send({redirect: '/dashboard'})
 		}
 	}).catch((error) => {
@@ -129,7 +141,7 @@ const authenticate = (req, res, next) => {
 /// Student routes go below
 
 // Set up a POST route to create a student
-app.post('/students', authenticate, (req, res) => {
+/*app.post('/students', authenticate, (req, res) => {
 	log(req.body)
 
 	// Create a new student
@@ -226,38 +238,203 @@ app.patch('/students/:id', (req, res) => {
 		res.status(400).send(error)
 	})
 
-})
+})*/
 
 
 /** User routes **/
+// profile routes
+app.get('/u/:uid', (req, res) => {
+	const id = req.params.uid;
+
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+
+	// Otheriwse, findById
+	User.findById(id).then((user) => {
+		if (!user || user.utype === "Admin") {
+			res.status(404).send()
+		} else if(user.utype === "Employer") {
+			res.render('employer.hbs', {
+				loggedin: req.session.user,
+				owner: req.session.user && req.session.user.equals(user._id),
+				name: req.session.name,
+				employerID: user._id,
+				whoami: req.session.user
+			})
+		}
+
+	}).catch((error) => {
+		res.status(500).send(sanitizeMongoError(error))
+	})
+})
+
 app.post('/users', (req, res) => {
 
 	// Create a new user
 	const user = new User({
 		username: req.body.username,
 		password: req.body.password,
-		email: req.body.email,
-		utype: req.body.utype
+		utype: req.body.utype,
+		profile: {
+			name: req.body.name,
+			email: req.body.email,
+			location: req.body.location,
+			phone: req.body.phone
+		}
 	})
 
 	// save user to database
 	user.save().then((result) => {
 		req.session.user = result._id;
 		req.session.utype = result.utype;
+		req.session.name = result.profile.name;
 		res.send({redirect: "/dashboard"});
 	}, (error) => {
-		if(error.code === 11000) {
-			const [_, field] = error.errmsg.match(/index:\s([a-z]+).*"/i);
-			res.status(400).send({error: `${field.charAt(0).toUpperCase() + field.slice(1)} in use.`});
-		} else if(error.message.startsWith("User validation failed: ")) {
-			const [_, message] = error.message.match(/User validation failed\: .+\: (.*)$/i);
-			res.status(400).send({error: message});
-		} else {
-			res.status(400).send({error: "Something went wrong."});
-		}
+		res.status(400).send(sanitizeMongoError(error));
 	})
 
 })
+
+// profile routes
+app.get('/profile/:id', (req, res) => {
+	const id = req.params.id // the id is in the req.params object
+
+	// Good practise is to validate the id
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+
+	// Otheriwse, findById
+	User.findById(id).then((user) => {
+		if (!user) {
+			res.status(404).send()
+		} else {
+			res.send(user.profile)
+		}
+
+	}).catch((error) => {
+		res.status(500).send(sanitizeMongoError(error))
+	})
+})
+
+app.patch('/profile', authenticate, (req, res) => {
+	const id = req.user._id;
+
+	// Good practise is to validate the id
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+
+	// Otheriwse, findById
+	User.findById(id).then((user) => {
+		if (!user) {
+			res.status(404).send();
+			return;
+		}
+		const profile = user.profile;
+		if(!user.profile) {
+			res.status(404).send();
+			return;
+		}
+		user.profile = req.body;
+		user.save().then((result) => {
+			res.send(result.profile);
+		}, (error) => {
+			res.status(400).send(sanitizeMongoError(error));
+		})
+	}).catch((error) => {
+		res.status(500).send(sanitizeMongoError(error));
+	})
+})
+
+// post routes
+app.post('/post', authenticate, (req, res) => {
+	// Create a new job post
+	const post = new JobPost({
+		title: req.body.title,
+		salary: req.body.salary,
+		province: req.body.province,
+		city: req.body.city,
+		category: req.body.category,
+		desc: req.body.desc,
+		url: req.body.url,
+		creator: req.user._id // from the authenticate middleware
+	})
+
+	if(isNaN(parseFloat(post.salary)) || !isFinite(post.salary)) {
+		res.status(400).send({error: "Invalid salary."});
+		return;
+	}
+
+	// save post to database
+	post.save().then((result) => {
+		// Save and send object that was saved
+		res.send(result);
+	}, (error) => {
+		res.status(400).send(sanitizeMongoError(error));
+	})
+
+})
+
+app.delete('/post/:id', authenticate, (req, res) => {
+	const id = req.params.id
+
+	// Good practise is to validate the id
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+
+	// Otheriwse, findByIdAndRemove
+	JobPost.findById(id).then((post) => {
+		if (!post) {
+			res.status(404).send()
+		} else if(req.session.utype !== "Admin" && !post.creator.equals(req.session.user)) {
+			res.status(400).send();
+		} else {
+			post.remove();
+			res.send({ post })
+		}
+	}).catch((error) => {
+		res.status(500).send(error)
+	})
+})
+
+app.get('/posts', (req, res) => {
+	JobPost.find({}).then((docs) => {
+		res.send(docs);
+	}).catch((error) => {
+		res.status(400).send(sanitizeMongoError(error));
+	})
+})
+
+app.get('/posts/:cid', (req, res) => {
+	const id = req.params.cid // the id is in the req.params object
+
+	// Good practise is to validate the id
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+
+	JobPost.find({creator: id}).then((docs) => {
+		res.send(docs);
+	}).catch((error) => {
+		res.status(400).send(sanitizeMongoError(error));
+	})
+})
+
+function sanitizeMongoError(error) {
+	if(error.code === 11000) {
+		const [_, field] = error.errmsg.match(/index:\s([a-z]+).*"/i);
+		return {error: `${field.charAt(0).toUpperCase() + field.slice(1)} in use.`};
+	} else if(error.message.includes(" validation failed: ")) {
+		const [_, message] = error.message.match(/.+ validation failed\: .+\: (.*)$/i);
+		return {error: message};
+	} else {
+		console.log(error);
+		return {error: "Something went wrong."};
+	}
+}
 
 app.listen(port, () => {
 	log(`Listening on port ${port}...`)

@@ -3,10 +3,10 @@
 let users = [], companies = [], jobPosts = [];
 let usersUl, companiesUl, jobPostsDiv;
 
-function initPage(e) {
+async function initPage(e) {
 	users = getAllUsers();
 	companies = getAllCompanies();
-	jobPosts = getAllJobPosts();
+	jobPosts = await getAllJobPosts();
 
 	usersUl = document.querySelector("#users");
 	usersUl.addEventListener("click", usersClickListener);
@@ -34,7 +34,7 @@ function usersClickListener(e) {
 function deleteUser(e) {
 	const userLi = e.target.parentElement.parentElement;
 	const idx = Array.prototype.indexOf.call(usersUl.children, userLi);
-	deleteAccount(users[idx].id);
+	deleteAccount(users[idx]._id);
 	users.splice(idx, 1);
 	removeUserLi(userLi);
 }
@@ -47,20 +47,21 @@ function companiesClickListener(e) {
 function deleteCompany(e) {
 	const companyLi = e.target.parentElement.parentElement;
 	const idx = Array.prototype.indexOf.call(companiesUl.children, companyLi);
-	deleteAccount(companies[idx].id);
+	deleteAccount(companies[idx]._id);
 	companies.splice(idx, 1);
 	removeCompanyLi(companyLi);
 }
 
-function jobsClickListener(e) {
+async function jobsClickListener(e) {
 	if(e.target.classList.contains("delete"))
-		deletePost(e);
+		await deletePost(e);
 }
 
-function deletePost(e) {
+async function deletePost(e) {
 	const postDiv = e.target.parentElement.parentElement.parentElement;
 	const idx = Array.prototype.indexOf.call(jobPostsDiv.children, postDiv);
-	deleteJobPost(jobPosts[idx].id);
+	const deleted = await deleteJobPost(jobPosts[idx]._id);
+	if(!deleted) return;
 	jobPosts.splice(idx, 1);
 	removePostDiv(postDiv);
 }

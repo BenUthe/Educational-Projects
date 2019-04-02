@@ -12,11 +12,16 @@ const PostSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 		validate: {
-			validator: validator.isNumeric,
+			validator: x => x >= 0,
 			message: "Invalid salary"
 		}
 	},
-	location: {
+	province: {
+		type: String,
+		required: true,
+		trim: true
+	},
+	city: {
 		type: String,
 		required: true,
 		trim: true

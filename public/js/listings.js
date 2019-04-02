@@ -4,7 +4,7 @@ let jobPosts = [];
 let searchForm, categoriesForm, locationsForm, loginForm, signUpForm, jobPostsDiv;
 let minSalarySlider, minSalaryText, maxSalarySlider, maxSalaryText;
 
-function initListings(e) {
+async function initListings(e) {
 	searchForm = document.forms["searchForm"];
 	searchForm.addEventListener("submit", searchJobs);
 
@@ -23,7 +23,7 @@ function initListings(e) {
 
 	jobPostsDiv = document.querySelector("#jobPostings");
 
-	jobPosts = getAllJobPosts();
+	jobPosts = await getAllJobPosts();
 	jobPosts.forEach(job => renderJobPost(job, jobPostsDiv));
 
 	// Event Listeners for syncing salary slider and textboxes
@@ -48,12 +48,13 @@ function initListings(e) {
 
 window.addEventListener("load", initListings);
 
-function searchJobs(e) {
+async function searchJobs(e) {
 	e.preventDefault();
 
 	const reKeywords = new RegExp(searchForm.elements["keywords"].value.split(" ").join("|"), "i");
 	const reLocation = new RegExp(searchForm.elements["location"].value, "i");
-	jobPosts = getAllJobPosts().filter(job =>
+	jobPosts = await getAllJobPosts()
+	jobPosts = jobPosts.filter(job =>
 		(job.title.match(reKeywords) || job.desc.match(reKeywords) || job.company.match(reKeywords))
 		&& (job.province.match(reLocation) || job.city.match(reLocation)));
 
@@ -105,10 +106,13 @@ function signUpRedirect(e) {
 	const password = signUpForm.elements["password1"].value;
 	const password2 = signUpForm.elements["password2"].value;
 	const utype = signUpForm.elements["newUser"].value;
+	const name = signUpForm.elements["name"].value;
+	const location = signUpForm.elements["location"].value;
+	const phone = signUpForm.elements["phoneNumber"].value;
 
 	if(password === password2) {
 		const url = '/users';
-	    let data = {username, password, email, utype};
+	    let data = {username, password, email, utype, name, location, phone};
 	    const request = new Request(url, {
 	        method: 'post',
 	        body: JSON.stringify(data),
@@ -143,8 +147,8 @@ function updateFilterOptions() {
 	const citiesList = [];
 
 	for (let i = 0; i < jobPosts.length; i++) {
-		if(!timesList.includes(jobPosts[i].time))
-			timesList.push(jobPosts[i].time);
+		if(!timesList.includes(jobPosts[i].category))
+			timesList.push(jobPosts[i].category);
 		if(!citiesList.includes(jobPosts[i].city))
 			citiesList.push(jobPosts[i].city);
 	}
@@ -167,7 +171,7 @@ function isValidJob(job, timesAllowed, locsAllowed) {
 
 	let timeMatch = timesAllowed.length === 0;
 	for(let i = 0; i < timesAllowed.length; i++) {
-		if(timesAllowed[i].value === job.time) {
+		if(timesAllowed[i].value === job.category) {
 			timeMatch = true;
 			break;
 		}
@@ -204,7 +208,7 @@ function formatAmount(amt) {
 function updateFilterForms(timesList, citiesList) {
 	// TODO: reset salary range
 	minSalarySlider.value = minSalaryText.value = 0;
-	maxSalarySlider.value = maxSalaryText.value = 100000;
+	maxSalarySlider.value = maxSalaryText.value = 1000000;
 
 	// update time categories
 	while(categoriesForm.hasChildNodes())

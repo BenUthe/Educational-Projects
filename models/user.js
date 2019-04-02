@@ -16,17 +16,6 @@ const UserSchema = new mongoose.Schema({
 			message: 'Invalid username.'
 		}
 	},
-	email: {
-		type: String,
-		required: [true, "Email required."],
-		minlength: 1,
-		trim: true, // trim whitespace
-		unique: true,
-		validate: {
-			validator: validator.isEmail,
-			message: 'Invalid email.'
-		}
-	},
 	password: {
 		type: String,
 		required: [true, "Password required."],
@@ -36,6 +25,75 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		required: [true, "User type required."],
 		trim: true
+	},
+	profile: {
+		name: {
+			type: String,
+			required: [true, "Name required."],
+			minlength: 1,
+			trim: true
+		},
+		email: {
+			type: String,
+			required: [true, "Email required."],
+			minlength: 1,
+			trim: true, // trim whitespace
+			unique: true,
+			validate: {
+				validator: validator.isEmail,
+				message: 'Invalid email.'
+			}
+		},
+		location: {
+			type: String,
+			required: [true, "Location required."],
+			trim: true
+		},
+		phone: {
+			type: String,
+			required: [true, "Phone # required."],
+			trim: true,
+			validate: {
+				validator: validator.isMobilePhone,
+				message: 'Not valid phone number.'
+			}
+		},
+		facebook: {
+			type: String,
+			required: false,
+			validate: {
+				validator: x => x === "" || validator.isFQDN(x),
+				message: 'Invalid URL for facebook.'
+			}
+		},
+		instagram: {
+			type: String,
+			required: false,
+			validate: {
+				validator: x => x === "" || validator.isFQDN(x),
+				message: 'Invalid URL for instagram.'
+			}
+		},
+		twitter: {
+			type: String,
+			required: false,
+			validate: {
+				validator: x => x === "" || validator.isFQDN(x),
+				message: 'Invalid URL for twitter.'
+			}
+		},
+		linkedin: {
+			type: String,
+			required: false,
+			validate: {
+				validator: x => x === "" || validator.isFQDN(x),
+				message: 'Invalid URL for linkedin.'
+			}
+		},
+		about: {
+			type: String,
+			required: false
+		},
 	}
 })
 
