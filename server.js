@@ -109,7 +109,7 @@ app.post('/users/login', (req, res) => {
 			req.session.user = user._id;
 			req.session.utype = user.utype;
 			req.session.name = user.profile.name;
-			res.send({redirect: '/dashboard'})
+			res.send({redirect: req.get('referer')})
 		}
 	}).catch((error) => {
 		res.status(400).send({error: "Invalid username/password."});
