@@ -508,7 +508,8 @@ app.delete('/posts/:cid', authenticate, (req, res) => {
 
 function sanitizeMongoError(error) {
 	if(error.code === 11000) {
-		const [_, field] = error.errmsg.match(/index:\s([a-z]+).*"/i);
+		console.log(error.errmsg);
+		const [_, field] = error.errmsg.match(/index:\s(?:[a-zA-Z]+\.)*([A-Za-z]+).* dup key/i);
 		return {error: `${field.charAt(0).toUpperCase() + field.slice(1)} in use.`};
 	} else if(error.message.includes(" validation failed: ")) {
 		const [_, message] = error.message.match(/.+ validation failed\: .+\: (.*)$/i);
