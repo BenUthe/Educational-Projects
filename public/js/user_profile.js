@@ -19,7 +19,7 @@ let editProfileBtn, submitEdit;
 
 async function initPage(e) {
 	editProfileBtn = document.getElementById("editUser");
-	editProfileBtn.addEventListener("click", editProfileModalLoad);
+	if(editProfileBtn) editProfileBtn.addEventListener("click", editProfileModalLoad);
 	submitEdit = document.forms["editProfile"];
 	submitEdit.addEventListener("submit", updateUserProfile);
 
