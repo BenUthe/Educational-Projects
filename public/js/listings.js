@@ -24,7 +24,7 @@ async function initListings(e) {
 	jobPostsDiv = document.querySelector("#jobPostings");
 
 	jobPosts = await getAllJobPosts();
-	jobPosts.forEach(job => renderJobPost(job, jobPostsDiv));
+	for(var job of jobPosts) await renderJobPost(job, jobPostsDiv);
 
 	// Event Listeners for syncing salary slider and textboxes
 	minSalarySlider = document.querySelector("#filterMinSalary");
@@ -59,7 +59,8 @@ async function searchJobs(e) {
 		&& (job.province.match(reLocation) || job.city.match(reLocation)));
 
 	clearJobPosts(jobPostsDiv);
-	jobPosts.forEach(job => renderJobPost(job, jobPostsDiv));
+
+	for(var job of jobPosts) await renderJobPost(job, jobPostsDiv);
 	updateFilterOptions();
 }
 
@@ -156,14 +157,14 @@ function updateFilterOptions() {
 	updateFilterForms(timesList, citiesList);
 }
 
-function filterPosts(e) {
+async function filterPosts(e) {
 	const checkedTimes = categoriesForm.querySelectorAll("input:checked");
 	const checkedLocations = locationsForm.querySelectorAll("input:checked");
 
 	const newJobs = jobPosts.filter(job => isValidJob(job, checkedTimes, checkedLocations));
 
 	clearJobPosts(jobPostsDiv);
-	newJobs.forEach(job => renderJobPost(job, jobPostsDiv));
+	for(var job of newJobs) await renderJobPost(job, jobPostsDiv);
 }
 
 function isValidJob(job, timesAllowed, locsAllowed) {

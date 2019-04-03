@@ -20,7 +20,7 @@ async function initPage(e) {
 
 	jobPostsDiv = document.querySelector("#jobPostings");
 	jobPostsDiv.addEventListener("click", jobsClickListener);
-	jobPosts.forEach(job => renderJobPost(job, jobPostsDiv, true));
+	for(var job of jobPosts) await renderJobPost(job, jobPostsDiv, true);
 	renderNumPosts();
 }
 
@@ -56,13 +56,12 @@ async function deleteCompany(e) {
 		alert('Something went wrong...');
 		return;
 	}
-	jobPosts.filter(p => {
-		return p.creator.toString() === companies[idx]._id.toString();
-	}).forEach(p => {
-		const i = Array.prototype.indexOf.call(jobPosts, p)
-		jobPosts.splice(i, 1);
-		removePostDiv(jobPostsDiv.children[i]);
-	});
+	for(var i = jobPosts.length - 1; i >= 0; i--) {
+		if(jobPosts[i].creator.toString() === companies[idx]._id.toString()) {
+			jobPosts.splice(i,1);
+			removePostDiv(jobPostsDiv.children[i]);
+		}
+	}
 	const deleted = await deleteAccount(companies[idx]._id);
 	if(!deleted) {
 		alert('Something went wrong...');
@@ -216,15 +215,4 @@ async function getAllEmployers() {
 	}
 
     return json;
-}
-
-function getProfileLink(user) {
-	// technically server should already populate
-	// page with the appropriate links to profiles
-	// for existing users before serving the page to
-	// client... this shall be done when we write backend
-	if(users.includes(user))
-		return "user_profile.html";
-
-	return "employer_profile.html";
 }

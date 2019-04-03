@@ -38,7 +38,7 @@ async function initPage(e) {
 	renderEmployerProfile(employer);
 
 	empJobPosts = await getCompanyJobPosts(employerID);
-	empJobPosts.forEach(job => renderJobPost(job, empJobPostsDiv, whoami===employerID));
+	for(var job of empJobPosts) await renderJobPost(job, empJobPostsDiv, whoami===employerID);
 
 	renderNumPosts();
 
@@ -92,7 +92,7 @@ async function createPost(e) {
 	clearEmpForm();
 
 	empJobPosts.push(res);
-	renderJobPost(res, empJobPostsDiv, whoami===employerID);
+	await renderJobPost(res, empJobPostsDiv, whoami===employerID);
 	renderNumPosts();
 }
 
