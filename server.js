@@ -78,7 +78,14 @@ app.get('/dashboard', (req, res) => {
 				whoami: req.session.user
 			})
 		} else if(req.session.utype === "Applicant") {
-			res.sendFile(__dirname + '/public/user_profile.html')
+			res.render('user.hbs', {
+				loggedin: true,
+				owner: true,
+				name: req.session.name,
+				userID: req.session.user,
+				whoami: req.session.user
+			})
+			//res.sendFile(__dirname + '/public/user_profile.html')
 		} else {
 			res.sendFile(__dirname + '/public/admin.html')
 		}
@@ -257,15 +264,71 @@ app.get('/u/:uid', (req, res) => {
 		} else if(user.utype === "Employer") {
 			res.render('employer.hbs', {
 				loggedin: req.session.user,
-				owner: req.session.user && req.session.user.equals(user._id),
+				owner: req.session.user && user._id.equals(req.session.user),
 				name: req.session.name,
 				employerID: user._id,
+				whoami: req.session.user
+			})
+		} else {
+			res.render('user.hbs', {
+				loggedin: req.session.user,
+				owner: req.session.user && user._id.equals(req.session.user),
+				name: req.session.name,
+				userID: user._id,
 				whoami: req.session.user
 			})
 		}
 
 	}).catch((error) => {
+		console.log(error)
 		res.status(500).send(sanitizeMongoError(error))
+	})
+})
+
+app.get('/applicants', authenticate, (req, res) => {
+	if(req.session.utype !== "Admin") {
+		res.status(400).send({error: "Not privileged."});
+	}
+	User.find({utype: "Applicant"}).then((docs) => {
+		res.send(docs);
+	}).catch((error) => {
+		res.status(400).send(sanitizeMongoError(error));
+	})
+})
+
+app.delete('/users/:id', authenticate, (req, res) => {
+	if(req.session.utype !== "Admin") {
+		res.status(400).send({error: "Not privileged."});
+	}
+
+	const id = req.params.id
+
+	// Good practise is to validate the id
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+
+	// Otheriwse, findByIdAndRemove
+	User.findById(id).then((user) => {
+		if (!user) {
+			res.status(404).send()
+		}  else {
+			user.remove();
+			res.send({ user })
+		}
+	}).catch((error) => {
+		res.status(500).send(error)
+	})
+})
+
+app.get('/employers', authenticate, (req, res) => {
+	if(req.session.utype !== "Admin") {
+		res.status(400).send({error: "Not privileged."});
+	}
+	User.find({utype: "Employer"}).then((docs) => {
+		res.send(docs);
+	}).catch((error) => {
+		res.status(400).send(sanitizeMongoError(error));
 	})
 })
 
@@ -420,6 +483,26 @@ app.get('/posts/:cid', (req, res) => {
 		res.send(docs);
 	}).catch((error) => {
 		res.status(400).send(sanitizeMongoError(error));
+	})
+})
+
+app.delete('/posts/:cid', authenticate, (req, res) => {
+	if(req.session.utype !== "Admin") {
+		res.status(400).send();
+	}
+	const id = req.params.cid
+
+	// Good practise is to validate the id
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+
+	// Otheriwse, findByIdAndRemove
+	JobPost.find({creator: id}).then((posts) => {
+		posts.forEach(p => p.remove());
+		res.send(posts)
+	}).catch((error) => {
+		res.status(500).send(error)
 	})
 })
 

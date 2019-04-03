@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/project.css">
+
+    <title>JobSearch: User Profile</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#AccountMenu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="AccountMenu">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="/" class="m-1 btn btn-outline-primary"><i class="fas fa-search"></i> Search Jobs</a>
+            </li>
+            {{#if owner}}
+            <li class="nav-item">
+              <a class="deco-none" href="/users/logout"><button class="m-1 btn btn-outline-dark"><i class=" text-primary fas fa-door-open"></i> Logout</button></a>
+            </li>
+            {{else if loggedin}}
+            <li class="nav-item">
+              <a class="deco-none" href="/dashboard"><button class="m-1 btn btn-outline-dark"><i class=" text-primary fas fa-user"></i> {{name}}</button></a>
+            </li>
+            <li class="nav-item">
+              <a class="deco-none" href="/users/logout"><button class="m-1 btn btn-outline-dark"><i class=" text-primary fas fa-door-open"></i> Logout</button></a>
+            </li>
+            {{else}}
+            <li class="nav-item">
+              <button class="m-1 btn btn-outline-primary" data-toggle="modal" data-target="#modalSignUp">Sign up
+            </li>
+            <li class="nav-item">
+              <button class="m-1 btn btn-outline-primary" data-toggle="modal" data-target="#modalLogin">Login
+            </li>
+            {{/if}}
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main role="main">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4 mb-3"><a href="/" class="deco-none">JobSearch <sup>&trade;</sup></a></h1>
+          <ul class="list-group list-group-horizontal-xl">
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span id="numPosts">0</span><br/>
+                <small>Pending Applications</small>
+              </h4>
+            </li>
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span>0</span><br/>
+                <small>Interviews</small>
+              </h4>
+            </li>
+            <li class="list-group-item text-center m-3">
+              <h4>
+                <span>0</span><br/>
+                <small>Pending Offers</small>
+              </h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <section id="userDetails">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="card w-100 mb-3 ">
+                <h3 class="card-header text-center">User Profile
+                  {{#if owner}}
+                  <button class="m-1 btn btn-outline-dark" data-toggle="modal" data-target="#modalEditProfile" id="editUser"><i class="far fas fa-edit"></i></button>
+                  {{/if}}
+                </h3>
+                <div class="card-body text-center">
+                  <img class="rounded-circle" id="userProfileBg" src="https://via.placeholder.com/150" />
+                  <h1 class="text-muted"><small id="userName"></small></h1>
+                </div>
+              </div>
+              <div class="card w-100 mb-3">
+                <div class="card-body">
+                  <h6 class="mb-3">Location: <button class="btn btn-outline-dark"><i class=" text-danger fas fa-map-marked-alt"></i> <span id="userLocation"></span></button></h6>
+                  <h6 class="mb-3">Email: <button class="btn btn-outline-dark"><i class=" text-primary far fa-envelope"></i> <span id="userEmail"></span></button></h6>
+                  <h6 class="mb-3">Phone: <button class="btn btn-outline-dark"><i class=" text-primary fas fa-mobile-alt"></i> <span id="userPhone"></span></button></h6>
+                  <h6 class="">Social:
+                    <a id="userFacebook" class="deco-none" target="_blank"><button class="btn btn-outline-dark"><i class=" text-primary fab fa-facebook-square"></i> Facebook</button></a>
+                    <a id="userInstagram" class="deco-none" target="_blank"><button class="btn btn-outline-dark"><i class=" text-danger fab fa-instagram"></i> Instagram</button></a>
+                    <a id="userTwitter" class="deco-none" target="_blank"><button class="btn btn-outline-dark"><i class=" text-info fab fa-twitter"></i> Twitter</button></a>
+                    <a id="userLinkedin" class="deco-none" target="_blank"><button class="btn btn-outline-dark"><i class=" text-primary fab fa-linkedin"></i> Linkedin</button></a>
+                  </h6>
+                </div>
+                <div class="card-footer text-center">
+                  <a href="Sample_Resume.pdf" target="_blank"><button class="btn btn-outline-danger"><i class="far fa-file-pdf"></i> View Resume</button></a>
+                </div>
+              </div>
+            </div>
+            <div id="resumeDetails" class="col-sm-12 col-md-8">
+              <!-- Education Card -->
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">Education</h3>
+                <div class="list-group  list-group-flush">
+                  <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Educational Program 1 |<small class="text-muted"> Name of School Attended</small></h5>
+                      <small class="text-muted">2014-Date</small>
+                    </div>
+                    <p class="mb-1">Accolades, sports, and honours if any</p>
+                  </div>
+                  <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Educational Program 2 |<small class="text-muted"> Name of School Attended</small></h5>
+                      <small class="text-muted">2010-2014</small>
+                    </div>
+                    <p class="mb-1">Accolades, sports, and honours if any</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Employment Card -->
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">Employment History</h3>
+                <div class="list-group  list-group-flush">
+                  <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Job Title 1 |<small class="text-muted"> Company 1</small></h5>
+                      <small class="text-muted">2014-Date</small>
+                    </div>
+                    <p class="mb-1">
+                      <ul>
+                        <li>Task 1</li>
+                        <li>Task 2</li>
+                      </ul>
+                    </p>
+                  </div>
+                  <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Job Title 2 |<small class="text-muted"> Company 2</small></h5>
+                      <small class="text-muted">2014-Date</small>
+                    </div>
+                    <p class="mb-1">
+                      <ul>
+                        <li>Task 1</li>
+                        <li>Task 2</li>
+                      </ul>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Skills Card -->
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">Skills</h3>
+                <div class="card-body">
+                  <button class="btn btn-outline-primary rounded-pill">Python</button>
+                  <button class="btn btn-outline-primary rounded-pill">Database Administration</button>
+                  <button class="btn btn-outline-primary rounded-pill">Communications</button>
+                  <button class="btn btn-outline-primary rounded-pill">Public Speaking</button>
+                </div>
+              </div>
+
+              <!-- References Card -->
+              <div class="card w-100 mb-3">
+                <h3 class="card-header">References</h3>
+                <div class="list-group  list-group-flush">
+                  <div class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">Reference 1, <small class="text-muted">Reference's Job</small></h5>
+                    <h6 class="text-muted">
+                      Reference Address |
+                      Reference Phone |
+                      Reference Email
+                    </h6>
+                    <p class="mb-1">Reference Comments blablabla  </p>
+                  </div>
+                  <div class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">Reference 2, <small class="text-muted">Reference's Job</small></h5>
+                    <h6 class="text-muted">
+                      Reference Address |
+                      Reference Phone |
+                      Reference Email
+                    </h6>
+                    <p class="mb-1">Reference Comments blablabla  </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="modal fade" id="modalEditProfile" tabindex="-1" role="dialog" aria-labelledby="modalCreateEditProfile" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <form name="editProfile">
+          <div class="modal-header">Edit Profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+			<label for="newUserName"><b>Name: </b>(<span class="text-danger">*</span>)</label>
+              <input type="text" class="form-control" name="newUserName" id="newUserName" placeholder="Firstname Lastname" required>
+            </div>
+			<div class="form-group">
+			<label for="newUserLocation"><b>Location: </b>(<span class="text-danger">*</span>)</label>
+              <input type="text" class="form-control" name="newUserLocation" id="newUserLocation" placeholder="City, Province" required>
+            </div>
+			<div class="form-group">
+			<label for="newUserEmail"><b>Email: </b>(<span class="text-danger">*</span>)</label>
+              <input type="text" class="form-control" name="newUserEmail" id="newUserEmail" placeholder="Email" required>
+			</div>
+			<div class="form-group">
+			<label for="newUserPhone"><b>Phone: </b>(<span class="text-danger">*</span>)</label>
+              <input type="text" class="form-control" name="newUserPhone" id="newUserPhone" placeholder="Phone #" required>
+            </div>
+			<div class="form-group">
+			<label for="newUserFacebook"><b>Facebook: </b></label>
+              <input type="text" class="form-control" name="newUserFacebook" id="newUserFacebook" placeholder="Facebook profile link">
+            </div>
+			<div class="form-group">
+			<label for="newUserInstagram"><b>Instagram: </b></label>
+              <input type="text" class="form-control" name="newUserInstagram" id="newUserInstagram" placeholder="Instagram profile link">
+            </div>
+			<div class="form-group">
+			<label for="newUserTwitter"><b>Twitter: </b></label>
+              <input type="text" class="form-control" name="newUserTwitter" id="newUserTwitter" placeholder="Twitter profile link">
+            </div>
+			<div class="form-group">
+			<label for="newUserLinkedin"><b>LinkedIn: </b></label>
+              <input type="text" class="form-control" name="newUserLinkedin" id="newUserLinkedin" placeholder="Linkedin profile link">
+            </div>
+
+            <span id="invalidProfileSpan" class="text-danger"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+
+    <input type="hidden" id="userID" value="{{userID}}">
+    <input type="hidden" id="whoami" value="{{whoami}}">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/profile.js"></script>
+    <script type="text/javascript" src="/js/user_profile.js"></script>
+</html>
