@@ -62,7 +62,7 @@ const UserSchema = new mongoose.Schema({
 			type: String,
 			required: false,
 			validate: {
-				validator: x => x === "" || validator.isFQDN(x),
+				validator: x => x === "" || validator.isURL(x),
 				message: 'Invalid URL for facebook.'
 			}
 		},
@@ -70,7 +70,7 @@ const UserSchema = new mongoose.Schema({
 			type: String,
 			required: false,
 			validate: {
-				validator: x => x === "" || validator.isFQDN(x),
+				validator: x => x === "" || validator.isURL(x),
 				message: 'Invalid URL for instagram.'
 			}
 		},
@@ -78,7 +78,7 @@ const UserSchema = new mongoose.Schema({
 			type: String,
 			required: false,
 			validate: {
-				validator: x => x === "" || validator.isFQDN(x),
+				validator: x => x === "" || validator.isURL(x),
 				message: 'Invalid URL for twitter.'
 			}
 		},
@@ -86,18 +86,18 @@ const UserSchema = new mongoose.Schema({
 			type: String,
 			required: false,
 			validate: {
-				validator: x => x === "" || validator.isFQDN(x),
+				validator: x => x === "" || validator.isURL(x),
 				message: 'Invalid URL for linkedin.'
 			}
 		},
 		about: {
 			type: String,
 			required: false
-		},		
+		},
 		picture: {
 			type: String,
 			required: false
-		},	
+		},
 		resume: {
 			type: String,
 			required: false

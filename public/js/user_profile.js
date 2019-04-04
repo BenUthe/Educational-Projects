@@ -1,22 +1,8 @@
 "use strict";
 
-class UserProfile {
-	constructor(name, location, email, phone, facebook, instagram, twitter, linkedin) {
-		this.name = name;
-		this.location = location;
-		this.email = email;
-		this.phone = phone;
-		this.facebook = facebook;
-		this.instagram = instagram;
-		this.twitter = twitter;
-		this.linkedin = linkedin;
-	}
-}
-
 let whoami;
 let user, userID;
 let editProfileBtn, submitEdit;
-let viewResumeBtn;
 
 async function initPage(e) {
 	editProfileBtn = document.getElementById("editUser");
@@ -28,14 +14,11 @@ async function initPage(e) {
 	userID = document.getElementById("userID").value;
 	user = await getUserProfile(userID);
 	renderUserProfile(user);
-	
-	
+
+
 	let profilePic = document.querySelector(".pic-container");
 	profilePic.addEventListener("mouseover", showProfilePicBtn);
 	profilePic.addEventListener("mouseout", hideProfilePicBtn);
-	
-	viewResumeBtn = document.getElementById("btnViewResume");
-	viewResumeBtn.addEventListener("click",startResumeView);
 }
 
 window.addEventListener("load", initPage);
@@ -50,7 +33,9 @@ async function updateUserProfile(e){
 		facebook: document.querySelector("#newUserFacebook").value,
 		instagram: document.querySelector("#newUserInstagram").value,
 		twitter: document.querySelector("#newUserTwitter").value,
-		linkedin: document.querySelector("#newUserLinkedin").value
+		linkedin: document.querySelector("#newUserLinkedin").value,
+		picture: user.picture,
+		resume: user.resume
 	};
 
 	const res = await modifyUserProfile(updated);
@@ -58,7 +43,7 @@ async function updateUserProfile(e){
 		renderProfileErr(res.error);
 		return;
 	}
-	user = updated
+	user = res
 	renderUserProfile(user);
 	$("#modalEditProfile").modal('hide');
 }
@@ -81,22 +66,22 @@ function renderUserProfile(user){
 	phone.innerText = user.phone;
 	const facebook = document.getElementById("userFacebook");
 	facebook.hidden = !user.facebook || user.facebook==="";
-	facebook.href = "http://" + user.facebook;
+	facebook.href = cleanURL(user.facebook);
 	const instagram = document.getElementById("userInstagram");
 	instagram.hidden = !user.instagram || user.instagram==="";
-	instagram.href = "http://" + user.instagram;
+	instagram.href = cleanURL(user.instagram);
 	const twitter = document.getElementById("userTwitter");
 	twitter.hidden = !user.twitter || user.twitter==="";
-	twitter.href = "http://" + user.twitter;
+	twitter.href = cleanURL(user.twitter);
 	const linkedin = document.getElementById("userLinkedin");
 	linkedin.hidden = !user.linkedin || user.linkedin==="";
-	linkedin.href = "http://" + user.linkedin;
+	linkedin.href = cleanURL(user.linkedin);
 	const pp = document.getElementById("userProfileBg");
 	pp.src = user.picture ? user.picture : "https://via.placeholder.com/150";
 	const resumeFile = document.getElementById("btnViewResume");
 	console.log(user.resume);
 	if (user.resume){
-		resumeFile.setAttribute("data-url", user.resume);
+		initPDFViewer(user.resume);
 	}
 }
 
@@ -126,21 +111,18 @@ function renderProfileErr(errText) {
 
 function showProfilePicBtn(e){
 	const x = document.getElementById("picEditBtn");
+	if(!x) return;
 	x.style.display = "block";
-	/*else {
-		x.style.display = "none";
-	}*/
 }
 
 function hideProfilePicBtn(e){
 	const x = document.getElementById("picEditBtn");
-		x.style.display = "none";
-	/*else {
-		x.style.display = "none";
-	}*/
+	if(!x) return;
+	x.style.display = "none";
 }
 
 function updateProfilePic(newSrc){
+	user.picture = newSrc;
 	const x = document.getElementById("userProfileBg");
 	x.src = newSrc;
 }
@@ -151,18 +133,16 @@ function closeModal(){
 
 
 function updateResume(newFile){
-	const x = document.getElementById("btnViewResume");
-	x.setAttribute('data-url',newFile);
+	user.resume = newFile;
+	initPDFViewer(newFile);
 }
 
 function closeResumeModal(){
 	$('#modalUploadResume').modal('hide');
 }
 
-function startResumeView(e){
-	const x = document.getElementById("btnViewResume");
-	let url = x.getAttribute("data-url")
-	if(url){
-		initPDFViewer(url);
-	}
+// misc functions
+function cleanURL(link) {
+	if(!link) return "";
+	return (link.indexOf('://') === -1) ? 'http://' + link : link;
 }

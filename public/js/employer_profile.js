@@ -1,19 +1,5 @@
 "use strict";
 
-class EmployerProfile {
-	constructor(name, location, email, phone, facebook, instagram, twitter, linkedin, about) {
-		this.name = name;
-		this.location = location;
-		this.email = email;
-		this.phone = phone;
-		this.facebook = facebook;
-		this.instagram = instagram;
-		this.twitter = twitter;
-		this.linkedin = linkedin;
-		this.about = about;
-	}
-}
-
 let whoami;
 let employerID, employer;
 let empJobPosts = [];
@@ -25,9 +11,9 @@ async function initPage(e) {
 	empJobPostsDiv = document.querySelector("#jobPostings");
 	empNumPostsSpan = document.querySelector("#numPosts");
 	empPostForm = document.forms["newJob"];
-	profilePic = document.querySelector(".pic-container");	
+	profilePic = document.querySelector(".pic-container");
 	//picEditBtn = document.querySelector("#picEditBtn");
-	
+
 
 	empJobPostsDiv.addEventListener("click", jobsClickListener);
 
@@ -47,7 +33,7 @@ async function initPage(e) {
 	renderNumPosts();
 
 	empPostForm.addEventListener("submit", createPost);
-	
+
 	profilePic.addEventListener("mouseover", showProfilePicBtn);
 	profilePic.addEventListener("mouseout", hideProfilePicBtn);
 }
@@ -65,14 +51,15 @@ async function updateEmployerProfile(e){
 		instagram: document.querySelector("#newCompanyInstagram").value,
 		twitter: document.querySelector("#newCompanyTwitter").value,
 		linkedin: document.querySelector("#newCompanyLinkedin").value,
-		about: document.querySelector("#newCompanyAbout").value
+		about: document.querySelector("#newCompanyAbout").value,
+		picture: employer.picture
 	}
 	const res = await modifyUserProfile(updated);
 	if(res.error) {
 		renderProfileErr(res.error);
 		return;
 	}
-	employer = updated;
+	employer = res;
 	renderEmployerProfile(employer);
 	$("#modalEditProfile").modal('hide');
 }
@@ -136,16 +123,16 @@ function renderEmployerProfile(employer){
 	phone.innerText = employer.phone;
 	const facebook = document.getElementById("companyFacebook");
 	facebook.hidden = !employer.facebook || employer.facebook==="";
-	facebook.href = "http://" + employer.facebook;
+	facebook.href = cleanURL(employer.facebook);
 	const instagram = document.getElementById("companyInstagram");
 	instagram.hidden = !employer.instagram || employer.instagram==="";
-	instagram.href = "http://" + employer.instagram;
+	instagram.href = cleanURL(employer.instagram);
 	const twitter = document.getElementById("companyTwitter");
 	twitter.hidden = !employer.twitter || employer.twitter==="";
-	twitter.href = "http://" + employer.twitter;
+	twitter.href = cleanURL(employer.twitter);
 	const linkedin = document.getElementById("companyLinkedin");
 	linkedin.hidden = !employer.linkedin || employer.linkedin==="";
-	linkedin.href = "http://" + employer.linkedin;
+	linkedin.href = cleanURL(employer.linkedin);
 	const about = document.getElementById("companyAbout");
 	about.innerText = employer.about ? employer.about : "";
 	const pp = document.getElementById("employerProfileBg");
@@ -204,6 +191,7 @@ function removePostDiv(postDiv) {
 
 function showProfilePicBtn(e){
 	const x = document.getElementById("picEditBtn");
+	if(!x) return;
 	x.style.display = "block";
 	/*else {
 		x.style.display = "none";
@@ -212,17 +200,25 @@ function showProfilePicBtn(e){
 
 function hideProfilePicBtn(e){
 	const x = document.getElementById("picEditBtn");
-		x.style.display = "none";
+	if(!x) return;
+	x.style.display = "none";
 	/*else {
 		x.style.display = "none";
 	}*/
 }
 
 function updateProfilePic(newSrc){
+	employer.picture = newSrc;
 	const x = document.getElementById("employerProfileBg");
 	x.src = newSrc;
 }
 
 function closeModal(){
 	$('#modalEditProfilePicture').modal('hide');
+}
+
+// misc functions
+function cleanURL(link) {
+	if(!link) return "";
+	return (link.indexOf('://') === -1) ? 'http://' + link : link;
 }

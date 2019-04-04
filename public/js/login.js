@@ -5,9 +5,7 @@ function handleLogin() {
 	const password = loginForm.elements["password"].value;
 
 	const url = '/users/login';
-    // The data we are going to send in our request
     let data = {username, password}
-    // Create our request constructor with all the parameters we need
     const request = new Request(url, {
         method: 'post',
         body: JSON.stringify(data),
@@ -18,8 +16,6 @@ function handleLogin() {
     });
     fetch(request)
     .then(function(res) {
-        // Handle response we get from the API
-        // Usually check the error codes to see what happened
         return res.json()
     })
     .then((json) => {
@@ -58,8 +54,6 @@ function handleSignUp() {
 	    });
 	    fetch(request)
 	    .then(function(res) {
-	        // Handle response we get from the API
-	        // Usually check the error codes to see what happened
 	        return res.json();
 	    })
 	    .then((json) => {

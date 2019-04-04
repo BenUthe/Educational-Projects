@@ -17,8 +17,6 @@ const { seedDB } = require('./db/seed');
 
 // Import the models
 const { User } = require('./models/user')
-const { Employer } = require('./models/employer')
-const { Applicant } = require('./models/applicant')
 const { JobPost } = require('./models/jobpost')
 
 // File Upload helper
@@ -72,8 +70,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
+// homepage get route
 app.get('/', (req, res) => {
-	//res.sendFile(__dirname + '/public/index.html')
 	res.render('index.hbs', {
 		loggedin: req.session.user,
 		name: req.session.user && req.session.name
@@ -83,9 +81,8 @@ app.get('/', (req, res) => {
 app.get('/dashboard', (req, res) => {
 	// check if we have active session cookie
 	if (req.session.user) {
-		//res.sendFile(__dirname + '/public/dashboard.html')
+		// route appropriately based on logged in user type
 		if(req.session.utype === "Employer") {
-			//res.sendFile(__dirname + '/public/employer_profile.html')
 			res.render('employer.hbs', {
 				loggedin: true,
 				owner: true,
@@ -101,7 +98,6 @@ app.get('/dashboard', (req, res) => {
 				userID: req.session.user,
 				whoami: req.session.user
 			})
-			//res.sendFile(__dirname + '/public/user_profile.html')
 		} else {
 			res.sendFile(__dirname + '/public/admin.html')
 		}
@@ -111,7 +107,6 @@ app.get('/dashboard', (req, res) => {
 })
 
 // User login and logout routes
-
 app.post('/users/login', (req, res) => {
 	const username = req.body.username
 	const password = req.body.password
@@ -160,108 +155,6 @@ const authenticate = (req, res, next) => {
 		res.redirect('/')
 	}
 }
-
-/// Student routes go below
-
-// Set up a POST route to create a student
-/*app.post('/students', authenticate, (req, res) => {
-	log(req.body)
-
-	// Create a new student
-	const student = new Student({
-		name: req.body.name,
-		year: req.body.year,
-		creator: req.user._id // from the authenticate middleware
-	})
-
-	// save student to database
-	student.save().then((result) => {
-		// Save and send object that was saved
-		res.send(result)
-	}, (error) => {
-		res.status(400).send(error) // 400 for bad request
-	})
-
-})
-
-// GET all students
-app.get('/students', authenticate, (req, res) => {
-	Student.find({
-		creator: req.user._id // from authenticate middleware
-	}).then((students) => {
-		res.send({ students }) // put in object in case we want to add other properties
-	}, (error) => {
-		res.status(500).send(error)
-	})
-})
-
-// GET student by id
-app.get('/students/:id', (req, res) => {
-	const id = req.params.id // the id is in the req.params object
-
-	// Good practise is to validate the id
-	if (!ObjectID.isValid(id)) {
-		return res.status(404).send()
-	}
-
-	// Otheriwse, findById
-	Student.findById(id).then((student) => {
-		if (!student) {
-			res.status(404).send()
-		} else {
-			res.send({ student })
-		}
-
-	}).catch((error) => {
-		res.status(500).send(error)
-	})
-})
-
-app.delete('/students/:id', (req, res) => {
-	const id = req.params.id
-
-	// Good practise is to validate the id
-	if (!ObjectID.isValid(id)) {
-		return res.status(404).send()
-	}
-
-	// Otheriwse, findByIdAndRemove
-	Student.findByIdAndRemove(id).then((student) => {
-		if (!student) {
-			res.status(404).send()
-		} else {
-			res.send({ student })
-		}
-	}).catch((error) => {
-		res.status(500).send(error)
-	})
-})
-
-app.patch('/students/:id', (req, res) => {
-	const id = req.params.id
-
-	// Get the new name and year from the request body
-	const { name, year } = req.body
-	const properties = { name, year }
-
-	// Good practise is to validate the id
-	if (!ObjectID.isValid(id)) {
-		return res.status(404).send()
-	}
-
-	// Update it
-	// $new: true gives back the new document
-	Student.findByIdAndUpdate(id, {$set: properties}, {new: true}).then((student) => {
-		if (!student) {
-			res.status(404).send()
-		} else {
-			res.send({ student })
-		}
-	}).catch((error) => {
-		res.status(400).send(error)
-	})
-
-})*/
 
 
 /** User routes **/
@@ -319,7 +212,6 @@ app.delete('/users/:id', authenticate, (req, res) => {
 
 	const id = req.params.id
 
-	// Good practise is to validate the id
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send()
 	}
@@ -377,9 +269,8 @@ app.post('/users', (req, res) => {
 
 // profile routes
 app.get('/profile/:id', (req, res) => {
-	const id = req.params.id // the id is in the req.params object
+	const id = req.params.id
 
-	// Good practise is to validate the id
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send()
 	}
@@ -400,7 +291,6 @@ app.get('/profile/:id', (req, res) => {
 app.patch('/profile', authenticate, (req, res) => {
 	const id = req.user._id;
 
-	// Good practise is to validate the id
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send()
 	}
@@ -431,7 +321,6 @@ app.patch('/profile', authenticate, (req, res) => {
 app.post('/profile-picture', authenticate, upload.single('image'), (req, res) => {
 	const id = req.user._id;
 
-	// Good practise is to validate the id
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send()
 	}
@@ -462,7 +351,6 @@ app.post('/profile-picture', authenticate, upload.single('image'), (req, res) =>
 app.post('/profile-resume', authenticate, upload.single('resume'), (req, res) => {
 	const id = req.user._id;
 
-	// Good practise is to validate the id
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send()
 	}
@@ -500,7 +388,7 @@ app.post('/post', authenticate, (req, res) => {
 		category: req.body.category,
 		desc: req.body.desc,
 		url: req.body.url,
-		creator: req.user._id // from the authenticate middleware
+		creator: req.user._id
 	})
 
 	if(isNaN(parseFloat(post.salary)) || !isFinite(post.salary)) {
@@ -521,7 +409,6 @@ app.post('/post', authenticate, (req, res) => {
 app.delete('/post/:id', authenticate, (req, res) => {
 	const id = req.params.id
 
-	// Good practise is to validate the id
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send()
 	}
@@ -550,9 +437,8 @@ app.get('/posts', (req, res) => {
 })
 
 app.get('/posts/:cid', (req, res) => {
-	const id = req.params.cid // the id is in the req.params object
+	const id = req.params.cid
 
-	// Good practise is to validate the id
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send()
 	}
@@ -570,7 +456,6 @@ app.delete('/posts/:cid', authenticate, (req, res) => {
 	}
 	const id = req.params.cid
 
-	// Good practise is to validate the id
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send()
 	}
@@ -583,17 +468,18 @@ app.delete('/posts/:cid', authenticate, (req, res) => {
 		res.status(500).send(error)
 	})
 })
-	
-// Admin Routes
+
+// Debug Routes
 app.get('/seed/', (req, res) => {
 	if(seedDB() == true){
+		if(req.session) req.session.destroy();
 		res.send("Database Seeded")
 	} else{
 		res.status(500).send("Seeding Failed");
 	}
 })
 
-
+// Convert mongo error messages to a more humanly readable form
 function sanitizeMongoError(error) {
 	if(error.code === 11000) {
 		console.log(error.errmsg);

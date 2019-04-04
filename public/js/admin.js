@@ -130,8 +130,6 @@ function removePostDiv(postDiv) {
 
 /** BACKEND MANIPULATING FUNCTIONS */
 async function deleteAccount(id) {
-	// Should delete the given job post from db
-	// code below requires server call
 	const url = `/users/${id}`;
 	const request = new Request(url, {
 	        method: 'DELETE',
@@ -162,15 +160,7 @@ async function deleteCompanyPosts(id) {
 }
 
 async function getAllApplicants() {
-	// Get all users from db
-	// code below requires server call
-	// this function will be rewritten
-	// to only get a few users (pagination)
-	// from backend (when it is implemented)
-	//return ["User 1", "User 2"];
 	const url = `/applicants`;
-    // The data we are going to send in our request
-    // Create our request constructor with all the parameters we need
     const request = new Request(url, {
         method: 'get',
         headers: {
@@ -190,15 +180,7 @@ async function getAllApplicants() {
 }
 
 async function getAllEmployers() {
-	// Get all companies from db
-	// code below requires server call
-	// this function will be rewritten
-	// to only get a few companies (pagination)
-	// from backend (when it is implemented)
-	//return ["Company 1", "Company 2"];
 	const url = `/employers`;
-    // The data we are going to send in our request
-    // Create our request constructor with all the parameters we need
     const request = new Request(url, {
         method: 'get',
         headers: {

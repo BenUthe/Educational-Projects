@@ -1,24 +1,19 @@
 /**
  * Seed the database
  */
- 
+
 // Import models
 // Import the models
 const { User } = require('../models/user')
-const { Employer } = require('../models/employer')
-const { Applicant } = require('../models/applicant')
 const { JobPost } = require('../models/jobpost')
 
 function seedDB() {
 	/** Clear Models */
-	Employer.remove({}, function(err) { 
-	   console.log('Employers cleared') 
+	User.remove({}, function(err) {
+	   console.log('Users cleared')
 	});
-	User.remove({}, function(err) { 
-	   console.log('Users cleared') 
-	});
-	JobPost.remove({}, function(err) { 
-	   console.log('Jobs cleared') 
+	JobPost.remove({}, function(err) {
+	   console.log('Jobs cleared')
 	});
 	/** USERS **/
 	// Create some users
@@ -55,86 +50,103 @@ function seedDB() {
 			phone: '6667778888'
 		}
 	}
-	
+
+	const _admin = {
+		username: 'admin',
+		password: 'admin',
+		utype: 'Admin',
+		profile: {
+			name: 'Admin',
+			email: 'admin@mail.com',
+			location: 'AdminLand, AdminWorld',
+			phone: '666911100'
+		}
+	}
+
 	// insert into the db
 	const user = new User(_user),
-		  user1 = new User(_user1), 
-		  user2 = new User(_user2);
-	user.save();  
+		  user1 = new User(_user1),
+		  user2 = new User(_user2),
+		  admin = new User(_admin);
+	user.save();
 	user1.save();
 	user2.save();
-	
-	/** EMPLOYERS **/
-	// create some employers
-	const employer1 = new Employer({userid : user1}), 
-		  employer2 = new Employer({userid : user2});
-	
-	employer1.save();
-	employer2.save();
-	
-	
+
 	/** JOBS **/
 	// create some jobs
 	const jobs = [
-		{ 
-			title: "Job 1",
+		{
+			title: "Software Engineer",
 			salary: 60000,
 			city: "Toronto",
 			province: "Ontario",
 			category: "Part-Time",
-			desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel nibh dictum, " +
-				"feugiat nulla ut, feugiat nibh. Integer a scelerisque mauris, quis consequat " +
-				"Nam et enim id velit maximus rutrum. Fusce nec arcu maximus, consequat risu. " +
-				"Quisque sit amet pellentesque est. Fusce tempus consequat scelerisque. " +
-				"Nunc vel convallis tortor. Phasellus ac condimentum eros. " +
-				"In hac habitasse platea dictumst. Vestibulum at semper dolor. " +
-				"Suspendisse facilisis mollis pellentesque. Nam condimentum varius nunc, " +
-				"ut maximus metus molestie eget. Orci varius natoque penatibus et magnis dis " +
-				"parturient montes, nascetur ridiculus mus. Morbi luctus orci a aliquet malesuada. " +
-				"Suspendisse vitae aliquet lectus.",
+			desc: "Company 1's software engineers develop the next-generation technologies that change " +
+				"how billions of users connect, explore, and interact with information and one " +
+				"another. Our products need to handle information at massive scale, and extend well " +
+				"beyond web search. We're looking for engineers who bring fresh ideas from all " +
+				"areas, including information retrieval, distributed computing, large-scale system " +
+				"design, networking and data storage, security, artificial intelligence, " +
+				"natural language processing, UI design and mobile; the list goes on and is growing " +
+				"every day. As a software engineer, you will work on a specific project " +
+				"critical to Company 1’s needs with opportunities to switch teams and projects as you " +
+				"and our fast-paced business grow and evolve. We need our engineers to be " +
+				"versatile, display leadership qualities and be enthusiastic to take on new problems " +
+				"across the full-stack as we continue to push technology forward.",
+			url: "careers.google.com",
 			creator: user1
 		},
-		{ 
-			title: "Job 2",
+		{
+			title: "Business Partner Development Leader",
 			salary: 20000,
 			city: "Vancouver",
 			province: "British Columbia",
 			category: "Contract",
-			desc: "Nunc nibh sem, gravida sit amet metus egestas, condimentum consectetur erat. Etiam " +
-				"sed ante vitae neque gravida euismod. Proin ultricies tincidunt tortor, et molestie " +
-				"eros interdum in. Suspendisse sagittis iaculis elit ut sodales. Curabitur interdum " +
-				"libero in arcu fringilla bibendum. Fusce rhoncus nulla eget justo facilisis, ut " +
-				"pulvinar ex volutpat. Morbi accumsan auctor tellus eget ullamcorper.",
+			desc: "The Role: SI/ ISV Partner Business Development Executive: In our first year, we " +
+				"primarily worked with management and strategy consulting partners. Going " +
+				"forward, one of our most important growth pillars will be to scale our solution " +
+				"to System Integrators and ISVs that have a track record of innovation, " +
+				"analytical capabilities, and market development. We will do this by recruiting " +
+				"the right partner set and by driving joint solution and market development " +
+				"programs with SIs and ISVs. This role will be responsible for refining our SI/ " +
+				"ISV strategy, executing initial incubation programs with hand-selected partners, " +
+				"and then developing and executing a scale motion that will include Comapny 2’s " +
+				"key partners and partner management organization. A deep knowledge of the SI and " +
+				"ISV landscape is critical as is experience in developing successful partner " +
+				"solutions, joint market and client success, and experience in scaling those " +
+				"solutions beyond initial programs.",
+			url: "careers.microsoft.com",
 			creator: user2
 		},
-		{ 
-			title: "Job 3",
+		{
+			title: "Senior Communications Associate",
 			salary: 90000,
 			city: "Halifax",
 			province: "Nova Scotia",
 			category: "Full-Time",
-			desc: "Proin tempor enim quis metus eleifend, id suscipit felis semper. In hac habitasse " +
-				"platea dictumst. Morbi euismod gravida rhoncus. Etiam elementum venenatis dictum. " +
-				"Praesent tellus nisl, feugiat ac accumsan a, imperdiet molestie metus. Proin " +
-				"vitae sodales velit. Ut efficitur euismod tortor, nec congue odio vehicula eget. " +
-				"Aenean sit amet auctor ante. Nunc aliquam turpis at volutpat accumsan. Nulla " +
-				"placerat quis arcu in hendrerit. Aliquam dolor nisl, posuere nec varius et, " +
-				"molestie in turpis. Aliquam id justo facilisis, finibus quam non, blandit felis. " +
-				"Quisque blandit metus sed arcu cursus consequat at eu elit. Nunc tincidunt elit " +
-				"a libero faucibus aliquet.",
-			creator: user2
+			desc: "As a member of the Global Communications & Public Affairs team, you will work " +
+				"cross-functionally to help communicate with journalists and other thought leaders; " +
+				"devise specific communications materials and campaigns based on understanding " +
+				"of journalists' interests; engage in face-to-face meetings with commentators and " +
+				"other opinion formers; develop print and web-based material supporting these " +
+				"campaigns; and counter misinformation that might interfere with our business and " +
+				"ability to serve our users. We're looking for great communicators who can " +
+				"understand complex issues and explain them in person and also via well written, simple " +
+				"blog posts, FAQs, video scripts and more.",
+			url: "youtube.com",
+			creator: user1
 		}
 	];
 
 	// use the Job Post model to insert/save
 	for (job of jobs) {
 		let newJob = new JobPost(job);
-		newJob.save();
+		newJob.save().catch((error) => console.log(error));
 	}
 
 	// seeded!
 	console.log('Database seeded!');
-	
+
 	return true
 }
 
