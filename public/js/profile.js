@@ -99,3 +99,29 @@ function handleUpload() {
 	
 	return false;
 }
+
+function handleResume() {
+	// send profile picture to server
+	let formData = new FormData();
+	var fileField = document.querySelector("input[name='resumeFile']");
+	
+	formData.append('resume', fileField.files[0]);
+	
+
+	fetch('/profile-resume', {
+	  method: 'post',
+	  body: formData
+	})
+	.then(response => response.json())
+	.catch(error => {
+		console.error('Error:', error);
+		invalidInput('resumeFail', error);
+	})
+	.then(response => {
+		console.log('Success:', JSON.stringify(response));
+		updateResume(response.resume);
+		closeResumeModal();
+	});
+	
+	return false;
+}

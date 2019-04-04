@@ -16,6 +16,7 @@ class UserProfile {
 let whoami;
 let user, userID;
 let editProfileBtn, submitEdit;
+let viewResumeBtn;
 
 async function initPage(e) {
 	editProfileBtn = document.getElementById("editUser");
@@ -32,6 +33,9 @@ async function initPage(e) {
 	let profilePic = document.querySelector(".pic-container");
 	profilePic.addEventListener("mouseover", showProfilePicBtn);
 	profilePic.addEventListener("mouseout", hideProfilePicBtn);
+	
+	viewResumeBtn = document.getElementById("btnViewResume");
+	viewResumeBtn.addEventListener("click",startResumeView);
 }
 
 window.addEventListener("load", initPage);
@@ -89,6 +93,11 @@ function renderUserProfile(user){
 	linkedin.href = "http://" + user.linkedin;
 	const pp = document.getElementById("userProfileBg");
 	pp.src = user.picture ? user.picture : "https://via.placeholder.com/150";
+	const resumeFile = document.getElementById("btnViewResume");
+	console.log(user.resume);
+	if (user.resume){
+		resumeFile.setAttribute("data-url", user.resume);
+	}
 }
 
 function fillInInfo(userInfo) {
@@ -138,4 +147,22 @@ function updateProfilePic(newSrc){
 
 function closeModal(){
 	$('#modalEditProfilePicture').modal('hide');
+}
+
+
+function updateResume(newFile){
+	const x = document.getElementById("btnViewResume");
+	x.setAttribute('data-url',newFile);
+}
+
+function closeResumeModal(){
+	$('#modalUploadResume').modal('hide');
+}
+
+function startResumeView(e){
+	const x = document.getElementById("btnViewResume");
+	let url = x.getAttribute("data-url")
+	if(url){
+		initPDFViewer(url);
+	}
 }

@@ -106,98 +106,26 @@
                   </h6>
                 </div>
                 <div class="card-footer text-center">
-                  <a href="Sample_Resume.pdf" target="_blank"><button class="btn btn-outline-danger"><i class="far fa-file-pdf"></i> View Resume</button></a>
+				  <button  data-toggle="modal" data-target="#modalUploadResume"  class="btn btn-primary"><i class="fas fa-file-upload"></i></button>
+                  <button id="btnViewResume" data-url="" class="btn btn-outline-danger"><i class="far fa-file-pdf"></i> View Resume</button>
                 </div>
               </div>
             </div>
             <div id="resumeDetails" class="col-sm-12 col-md-8">
-              <!-- Education Card -->
-              <div class="card w-100 mb-3">
-                <h3 class="card-header">Education</h3>
-                <div class="list-group  list-group-flush">
-                  <div class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">Educational Program 1 |<small class="text-muted"> Name of School Attended</small></h5>
-                      <small class="text-muted">2014-Date</small>
-                    </div>
-                    <p class="mb-1">Accolades, sports, and honours if any</p>
-                  </div>
-                  <div class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">Educational Program 2 |<small class="text-muted"> Name of School Attended</small></h5>
-                      <small class="text-muted">2010-2014</small>
-                    </div>
-                    <p class="mb-1">Accolades, sports, and honours if any</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Employment Card -->
-              <div class="card w-100 mb-3">
-                <h3 class="card-header">Employment History</h3>
-                <div class="list-group  list-group-flush">
-                  <div class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">Job Title 1 |<small class="text-muted"> Company 1</small></h5>
-                      <small class="text-muted">2014-Date</small>
-                    </div>
-                    <p class="mb-1">
-                      <ul>
-                        <li>Task 1</li>
-                        <li>Task 2</li>
-                      </ul>
-                    </p>
-                  </div>
-                  <div class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">Job Title 2 |<small class="text-muted"> Company 2</small></h5>
-                      <small class="text-muted">2014-Date</small>
-                    </div>
-                    <p class="mb-1">
-                      <ul>
-                        <li>Task 1</li>
-                        <li>Task 2</li>
-                      </ul>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Skills Card -->
-              <div class="card w-100 mb-3">
-                <h3 class="card-header">Skills</h3>
-                <div class="card-body">
-                  <button class="btn btn-outline-primary rounded-pill">Python</button>
-                  <button class="btn btn-outline-primary rounded-pill">Database Administration</button>
-                  <button class="btn btn-outline-primary rounded-pill">Communications</button>
-                  <button class="btn btn-outline-primary rounded-pill">Public Speaking</button>
-                </div>
-              </div>
-
-              <!-- References Card -->
-              <div class="card w-100 mb-3">
-                <h3 class="card-header">References</h3>
-                <div class="list-group  list-group-flush">
-                  <div class="list-group-item list-group-item-action">
-                    <h5 class="mb-1">Reference 1, <small class="text-muted">Reference's Job</small></h5>
-                    <h6 class="text-muted">
-                      Reference Address |
-                      Reference Phone |
-                      Reference Email
-                    </h6>
-                    <p class="mb-1">Reference Comments blablabla  </p>
-                  </div>
-                  <div class="list-group-item list-group-item-action">
-                    <h5 class="mb-1">Reference 2, <small class="text-muted">Reference's Job</small></h5>
-                    <h6 class="text-muted">
-                      Reference Address |
-                      Reference Phone |
-                      Reference Email
-                    </h6>
-                    <p class="mb-1">Reference Comments blablabla  </p>
-                  </div>
-                </div>
-              </div>
+              <div id="pdfHolder" class="card w-100">
+				<div id="app">
+				  <div role="toolbar" id="toolbar">
+					<div id="pager">
+					  <button data-pager="prev">prev</button>
+					  <button data-pager="next">next</button>
+					</div>
+					<div id="page-mode">
+					  <label>Page Mode <input type="number" value="1" min="1"/></label>
+					</div>
+				  </div>
+				  <div id="viewport-container"><div role="main" id="viewport"></div></div>
+				</div>
+			  </div>
             </div>
           </div>
         </div>
@@ -368,6 +296,31 @@
         </div>
       </div>
     </div>
+	
+	<div class="modal fade" id="modalUploadResume" tabindex="-1" role="dialog" aria-labelledby="modalEditPicture" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+			<form name="resumeForm" onsubmit="return handleResume()">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="modalEditPicture">Upload Your Resume</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<span id = "resumeFail"></span>
+				<div class="form-group">
+				  <input type="file" class="form-control" name="resumeFile" id="resumeFile" placeholder="Your Resume">
+				</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-success">Submit</button>
+			  </div>
+			</form>
+        </div>
+      </div>
+    </div>
 
     <input type="hidden" id="userID" value="{{userID}}">
     <input type="hidden" id="whoami" value="{{whoami}}">
@@ -378,4 +331,7 @@
     <script type="text/javascript" src="/js/login.js"></script>
     <script type="text/javascript" src="/js/profile.js"></script>
     <script type="text/javascript" src="/js/user_profile.js"></script>
+	<script src="https://unpkg.com/pdfjs-dist@2.0.489/build/pdf.min.js"></script>
+    <script type="text/javascript" src="/js/view_pdf.js"></script>
+	
 </html>
