@@ -27,6 +27,11 @@ async function initPage(e) {
 	userID = document.getElementById("userID").value;
 	user = await getUserProfile(userID);
 	renderUserProfile(user);
+	
+	
+	let profilePic = document.querySelector(".pic-container");
+	profilePic.addEventListener("mouseover", showProfilePicBtn);
+	profilePic.addEventListener("mouseout", hideProfilePicBtn);
 }
 
 window.addEventListener("load", initPage);
@@ -82,6 +87,8 @@ function renderUserProfile(user){
 	const linkedin = document.getElementById("userLinkedin");
 	linkedin.hidden = !user.linkedin || user.linkedin==="";
 	linkedin.href = "http://" + user.linkedin;
+	const pp = document.getElementById("userProfileBg");
+	pp.src = user.picture ? user.picture : "https://via.placeholder.com/150";
 }
 
 function fillInInfo(userInfo) {
@@ -105,4 +112,30 @@ function fillInInfo(userInfo) {
 
 function renderProfileErr(errText) {
 	document.querySelector("#invalidProfileSpan").innerText = errText;
+}
+
+
+function showProfilePicBtn(e){
+	const x = document.getElementById("picEditBtn");
+	x.style.display = "block";
+	/*else {
+		x.style.display = "none";
+	}*/
+}
+
+function hideProfilePicBtn(e){
+	const x = document.getElementById("picEditBtn");
+		x.style.display = "none";
+	/*else {
+		x.style.display = "none";
+	}*/
+}
+
+function updateProfilePic(newSrc){
+	const x = document.getElementById("userProfileBg");
+	x.src = newSrc;
+}
+
+function closeModal(){
+	$('#modalEditProfilePicture').modal('hide');
 }

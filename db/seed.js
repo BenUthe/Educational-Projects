@@ -22,6 +22,17 @@ function seedDB() {
 	});
 	/** USERS **/
 	// Create some users
+	const _user = {
+		username: 'user',
+		password: 'user',
+		utype: 'Applicant',
+		profile: {
+			name: 'Applicant a',
+			email: 'mail@applicanta.com',
+			location: '84 Calderston, Brampton, ON',
+			phone: '1448889797'
+		}
+	}
 	const _user1 = {
 		username: 'user1',
 		password: 'user1',
@@ -46,9 +57,10 @@ function seedDB() {
 	}
 	
 	// insert into the db
-	const user1 = new User(_user1), 
+	const user = new User(_user),
+		  user1 = new User(_user1), 
 		  user2 = new User(_user2);
-		  
+	user.save();  
 	user1.save();
 	user2.save();
 	
