@@ -90,7 +90,9 @@
                 <div class="card-body text-center">
 					<div class="pic-container">
 					  <img class="rounded-circle" id="employerProfileBg" src="https://via.placeholder.com/150" />
+					  {{#if owner}}
 					  <button data-toggle="modal" data-target="#modalEditProfilePicture" class="pic-btn" id="picEditBtn"><i class="far fas fa-camera"></i></button>
+					  {{/if}}
 					</div>
 					<h1 class="text-muted"><small id="companyName"></small></h1>
                 </div>
