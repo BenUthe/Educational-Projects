@@ -1,10 +1,10 @@
 "use strict";
 
 let jobPosts = [];
-let searchForm, categoriesForm, locationsForm, loginForm, signUpForm, jobPostsDiv;
+let searchForm, categoriesForm, locationsForm, jobPostsDiv;
 let minSalarySlider, minSalaryText, maxSalarySlider, maxSalaryText;
 
-function initListings(e) {
+async function initListings(e) {
 	searchForm = document.forms["searchForm"];
 	searchForm.addEventListener("submit", searchJobs);
 
@@ -13,18 +13,11 @@ function initListings(e) {
 
 	locationsForm = document.forms["filterLocations"];
 	locationsForm.addEventListener("change", filterPosts);
-	
-	loginForm = document.forms["loginForm"];
-	loginForm.addEventListener("submit", loginRedirect);
-	
-	signUpForm = document.forms["signUpForm"];
-	signUpForm.addEventListener("submit", signUpRedirect);
-
 
 	jobPostsDiv = document.querySelector("#jobPostings");
 
-	jobPosts = getAllJobPosts();
-	jobPosts.forEach(job => renderJobPost(job, jobPostsDiv));
+	jobPosts = await getAllJobPosts();
+	for(var job of jobPosts) await renderJobPost(job, jobPostsDiv);
 
 	// Event Listeners for syncing salary slider and textboxes
 	minSalarySlider = document.querySelector("#filterMinSalary");
@@ -48,60 +41,20 @@ function initListings(e) {
 
 window.addEventListener("load", initListings);
 
-function searchJobs(e) {
+async function searchJobs(e) {
 	e.preventDefault();
 
 	const reKeywords = new RegExp(searchForm.elements["keywords"].value.split(" ").join("|"), "i");
 	const reLocation = new RegExp(searchForm.elements["location"].value, "i");
-	jobPosts = getAllJobPosts().filter(job =>
+	jobPosts = await getAllJobPosts()
+	jobPosts = jobPosts.filter(job =>
 		(job.title.match(reKeywords) || job.desc.match(reKeywords) || job.company.match(reKeywords))
 		&& (job.province.match(reLocation) || job.city.match(reLocation)));
 
 	clearJobPosts(jobPostsDiv);
-	jobPosts.forEach(job => renderJobPost(job, jobPostsDiv));
+
+	for(var job of jobPosts) await renderJobPost(job, jobPostsDiv);
 	updateFilterOptions();
-}
-
-function loginRedirect(e) {
-	e.preventDefault();
-	
-	const user = loginForm.elements["username"].value;
-	const pass = loginForm.elements["password"].value;
-	
-	if(user === "user" && pass === "user"){
-		window.location.href = "user_profile.html";
-	}
-	
-	else if(user === "user2" && pass === "user2"){
-		window.location.href = "employer_profile.html";
-	}
-	
-	else if(user === "admin" && pass === "admin"){
-		window.location.href = "admin.html";
-	}
-	
-	else{
-		invalidInput();
-	}
-}
-
-function signUpRedirect(e) {
-	e.preventDefault();
-	
-	const pass1 = signUpForm.elements["password1"].value;
-	const pass2 = signUpForm.elements["password2"].value;
-	
-	if(pass1 === pass2){
-		const error = document.getElementById('invalidEntry1');
-		error.setAttribute("class", "text-success font-italic");
-		error.innerText="User Created[Backend not implemented]";
-	}
-	
-	else{
-		const error = document.getElementById('invalidEntry1');
-		error.setAttribute("class", "text-danger font-italic");
-		error.innerText="Passwords Do Not Match";
-	}
 }
 
 function updateFilterOptions() {
@@ -109,8 +62,8 @@ function updateFilterOptions() {
 	const citiesList = [];
 
 	for (let i = 0; i < jobPosts.length; i++) {
-		if(!timesList.includes(jobPosts[i].time))
-			timesList.push(jobPosts[i].time);
+		if(!timesList.includes(jobPosts[i].category))
+			timesList.push(jobPosts[i].category);
 		if(!citiesList.includes(jobPosts[i].city))
 			citiesList.push(jobPosts[i].city);
 	}
@@ -118,14 +71,14 @@ function updateFilterOptions() {
 	updateFilterForms(timesList, citiesList);
 }
 
-function filterPosts(e) {
+async function filterPosts(e) {
 	const checkedTimes = categoriesForm.querySelectorAll("input:checked");
 	const checkedLocations = locationsForm.querySelectorAll("input:checked");
 
 	const newJobs = jobPosts.filter(job => isValidJob(job, checkedTimes, checkedLocations));
 
 	clearJobPosts(jobPostsDiv);
-	newJobs.forEach(job => renderJobPost(job, jobPostsDiv));
+	for(var job of newJobs) await renderJobPost(job, jobPostsDiv);
 }
 
 function isValidJob(job, timesAllowed, locsAllowed) {
@@ -133,7 +86,7 @@ function isValidJob(job, timesAllowed, locsAllowed) {
 
 	let timeMatch = timesAllowed.length === 0;
 	for(let i = 0; i < timesAllowed.length; i++) {
-		if(timesAllowed[i].value === job.time) {
+		if(timesAllowed[i].value === job.category) {
 			timeMatch = true;
 			break;
 		}
@@ -170,7 +123,7 @@ function formatAmount(amt) {
 function updateFilterForms(timesList, citiesList) {
 	// TODO: reset salary range
 	minSalarySlider.value = minSalaryText.value = 0;
-	maxSalarySlider.value = maxSalaryText.value = 100000;
+	maxSalarySlider.value = maxSalaryText.value = 1000000;
 
 	// update time categories
 	while(categoriesForm.hasChildNodes())
@@ -213,10 +166,4 @@ function renderSalaryValue(elementID, elementType) {
 		destElement.value = srcElement.value.split(',').join('');
 	}
 
-}
-
-function invalidInput(){
-	const error = document.getElementById('invalidEntry');
-	error.setAttribute("class", "text-danger font-italic");
-	error.innerText="Invalid Username/Password";
 }

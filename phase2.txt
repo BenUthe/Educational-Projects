@@ -1,0 +1,79 @@
+User login info: 
+username: user 
+password: user
+
+Company1 login info:
+username: user1
+password: user1
+
+Company1 login info:
+username: user2
+password: user2
+
+Admin login info:
+username: admin
+password: admin
+
+Main page: 
+All of the jobs are listed on the main page. There is an option to search for keywords and locations which will only display the jobs that fit the search criteria. On the left-hand side there are additional features to 
+filter the job postings. There is a button that says "apply externally" that links to the company website to apply for the job directly on their website. Realistically, we would intend to have an agreement with the companies to have
+an exclusive link to the job application, when clicked, would call a get request on both ends that would take all of the users information and resume that is currently stored in the database and pass it over to the company so that
+they may extract the information to fill in the job application for the user. At the top there are sign-up and login buttons that open a modal to sign up for or login to an account. This checks to make sure that the passwords match and gives a
+success message if they do match and an error message if they don't. All required fields are also checked for correct input. Upon entering wrong input, there is a serialize mongo function that takes the error message and makes it more understandable 
+for the user with simple error messages displayed in the window.
+
+Admin page:
+The admin has the ability to delete/view users, companies and posts. If a company is deleted, all of their posts are deleted as well. Users are unable to delete their own profiles, so they must contact an admin to delete it for them.
+
+User page:
+The user profile has all of the information about a user including contact info, and also displays the users resume and profile picture on the page by a button press. For proper formatting, the original page layout from phase one was scrapped and replaces with a document
+viewer that directly shows the resume on the page. This was done to ensure that the user was able to display exactly what they wanted on their page in the form of their resume, with it being formatted and including all of the details that they specifically
+want to show on their profile. The edit info, upload profile picture and upload resume buttons only work and show up when the owner of the profile is on their own page. There is a logout button that logs the user out, and also a search for jobs page that returns to the main page.
+There is an edit button by the user profile which allows the user to edit all of their about information, some of which is required and some of which is not. If a social link is not added, then the button will disappear when the user 
+saves the changes. If a user that is not the owner is on the page, then they will have an additional button to return to their profile on the top. Users that are not logged in have the ability to sign up or login directly on the page.
+
+Company page:
+The company page is similar to the user the page although instead of a resume they have their specific job posts listed on the page. The company has the ability to delete their posts directly from their page. They also have an
+edit button that works similarly to the user that allows them to edit their company information. Again, these buttons to edit info and profile pictures only show up for the profile owner, and the create job posting button only works for the owner and is only available on their profile page.
+Posts contain hyperlinks to the company profile when the company name is clicked, which will allow users to view all of their job posts on their profile as well as all of their contact info, social links, etc. 
+
+Express routes: 
+
+get '/': renders the main page and checks to see if there is a user logged in and pulls their name if they are.
+
+get '/dashboard': This is the profile of the logged in user. It brings them to the page of their appropriate user type and renders the page with all of their information. It stores their ID and makes them the owner of their page so that they may edit it.
+If the user is not logged in and tries to use this request, it will default to the homepage.
+
+post '/users/login': Checks the users credentials compared to those in the database and logs them in if there is a match. It stores their basic information such as their name user type and id. It refreshes the page so that they can remain on the page that they logged in on.
+
+get '/users/logout': Destroys the session, logs the user out, and redirects to the homepage.
+
+get '/u/:uid': This brings up the profile of any user by their id. Proper checks are used to ensure the correct page is loaded, and this route is used when using links to company and user profiles.
+
+get '/applicants': This returns all of the users that are applicants. Only admins are authorized to use this route request.
+
+delete '/users/:id': Only admins may use this route, it finds a user by id and deletes them.
+
+get '/employers': This returns all of the users that are employers. Only admins are authorized to use this route request.
+
+post '/users': This creates a user and stores them in the database.
+
+get '/profile/:id': This gets the profile information of a user. It was done separately from sending the whole user object so that the password and id and username are not sent as well. 
+
+patch '/profile': Updates the profile information of the user and then updates the database to include the updated information.
+
+post '/profile-picture': Allows a user to upload a profile picture and then saves it to the user in the database.
+
+post '/profile-resume': Allows a user to upload a resume and then saves it to the user in the database.
+
+post '/post': Creates a new post object in the database.
+
+delete '/post/:id': Deletes a post with the id of :id.
+
+get '/posts': Gets all of the post objects.
+
+get '/posts/:cid': Gets only the posts that are created by the company with id of :cid
+
+delete '/posts/:cid': Deletes all of the posts by a single company. Only admins may use this route.
+
+get '/seed/': This route is used to wipe the database and replace it with some default users and posts. (Mainly just used to create objects for demonstration purposes)
