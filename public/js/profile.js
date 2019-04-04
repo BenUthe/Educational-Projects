@@ -73,3 +73,29 @@ async function modifyUserProfile(user) {
 		return json;
 	}
 }
+
+function handleUpload() {
+	// send profile picture to server
+	let formData = new FormData();
+	var fileField = document.querySelector("input[name='profilePic']");
+	
+	formData.append('image', fileField.files[0]);
+	
+
+	fetch('/profile-picture', {
+	  method: 'post',
+	  body: formData
+	})
+	.then(response => response.json())
+	.catch(error => {
+		console.error('Error:', error);
+		invalidInput('pictureFail', error);
+	})
+	.then(response => {
+		console.log('Success:', JSON.stringify(response));
+		updateProfilePic(response.picture);
+		closeModal();
+	});
+	
+	return false;
+}

@@ -19,11 +19,15 @@ let employerID, employer;
 let empJobPosts = [];
 let empJobPostsDiv, empNumPostsSpan, empPostForm;
 let editProfileBtn, submitEdit;
+let profilePic, picEditBtn;
 
 async function initPage(e) {
 	empJobPostsDiv = document.querySelector("#jobPostings");
 	empNumPostsSpan = document.querySelector("#numPosts");
 	empPostForm = document.forms["newJob"];
+	profilePic = document.querySelector(".pic-container");	
+	//picEditBtn = document.querySelector("#picEditBtn");
+	
 
 	empJobPostsDiv.addEventListener("click", jobsClickListener);
 
@@ -43,6 +47,9 @@ async function initPage(e) {
 	renderNumPosts();
 
 	empPostForm.addEventListener("submit", createPost);
+	
+	profilePic.addEventListener("mouseover", showProfilePicBtn);
+	profilePic.addEventListener("mouseout", hideProfilePicBtn);
 }
 
 window.addEventListener("load", initPage);
@@ -69,6 +76,7 @@ async function updateEmployerProfile(e){
 	renderEmployerProfile(employer);
 	$("#modalEditProfile").modal('hide');
 }
+
 
 async function createPost(e) {
 	e.preventDefault();
@@ -140,6 +148,8 @@ function renderEmployerProfile(employer){
 	linkedin.href = "http://" + employer.linkedin;
 	const about = document.getElementById("companyAbout");
 	about.innerText = employer.about ? employer.about : "";
+	const pp = document.getElementById("employerProfileBg");
+	pp.src = employer.picture ? employer.picture : "https://via.placeholder.com/150";
 }
 
 function fillInInfo(employerInfo) {
@@ -190,4 +200,29 @@ function clearEmpForm() {
 function removePostDiv(postDiv) {
 	empJobPostsDiv.removeChild(postDiv);
 	renderNumPosts();
+}
+
+function showProfilePicBtn(e){
+	const x = document.getElementById("picEditBtn");
+	x.style.display = "block";
+	/*else {
+		x.style.display = "none";
+	}*/
+}
+
+function hideProfilePicBtn(e){
+	const x = document.getElementById("picEditBtn");
+		x.style.display = "none";
+	/*else {
+		x.style.display = "none";
+	}*/
+}
+
+function updateProfilePic(newSrc){
+	const x = document.getElementById("employerProfileBg");
+	x.src = newSrc;
+}
+
+function closeModal(){
+	$('#modalEditProfilePicture').modal('hide');
 }

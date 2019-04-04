@@ -36,7 +36,7 @@ const PostSchema = new mongoose.Schema({
 	},
 	url: {
 		type: String,
-		required: true,
+		required: false,
 		validate: {
 			validator: validator.isFQDN,
 			message: 'Not valid application url'

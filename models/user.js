@@ -93,7 +93,15 @@ const UserSchema = new mongoose.Schema({
 		about: {
 			type: String,
 			required: false
-		},
+		},		
+		picture: {
+			type: String,
+			required: false
+		},	
+		resume: {
+			type: String,
+			required: false
+		}
 	}
 })
 

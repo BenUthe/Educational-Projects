@@ -13,12 +13,16 @@ const { ObjectID } = require('mongodb')
 
 // Import our mongoose connection
 const { mongoose } = require('./db/mongoose');
+const { seedDB } = require('./db/seed');
 
 // Import the models
 const { User } = require('./models/user')
 const { Employer } = require('./models/employer')
 const { Applicant } = require('./models/applicant')
 const { JobPost } = require('./models/jobpost')
+
+// File Upload helper
+const multer = require('multer');
 
 
 
@@ -35,6 +39,7 @@ app.set('view engine', 'hbs')
 // static js directory
 app.use("/js", express.static(__dirname + '/public/js'))
 app.use("/css", express.static(__dirname + '/public/css'))
+app.use("/uploads", express.static(__dirname + '/public/img/uploads'))
 
 // Add express sesssion middleware
 app.use(session({
@@ -55,6 +60,17 @@ const sessionChecker = (req, res, next) => {
 		next();
 	}
 }
+
+// Middleware for uploading documents
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+		cb(null, 'public/img/uploads')
+    },
+    filename: (req, file, cb) => {
+		cb(null, file.fieldname + '-' + Date.now() + '.' + file.originalname.split('.')[1])
+    }
+});
+const upload = multer({storage: storage});
 
 app.get('/', (req, res) => {
 	//res.sendFile(__dirname + '/public/index.html')
@@ -411,6 +427,68 @@ app.patch('/profile', authenticate, (req, res) => {
 	})
 })
 
+//upload profile picture
+app.post('/profile-picture', authenticate, upload.single('image'), (req, res) => {
+	const id = req.user._id;
+
+	// Good practise is to validate the id
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+
+	// Otheriwse, findById
+	User.findById(id).then((user) => {
+		if (!user) {
+			res.status(404).send();
+			return;
+		}
+		const profile = user.profile;
+		if(!user.profile) {
+			res.status(404).send();
+			return;
+		}
+		user.profile.picture = '/uploads/' + req.file.filename;
+		user.save().then((result) => {
+			res.send(result.profile);
+		}, (error) => {
+			res.status(400).send(sanitizeMongoError(error));
+		})
+	}).catch((error) => {
+		res.status(500).send(sanitizeMongoError(error));
+	})
+});
+
+//upload resume
+app.post('/profile-resume', authenticate, upload.single('resume'), (req, res) => {
+	const id = req.user._id;
+
+	// Good practise is to validate the id
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send()
+	}
+
+	// Otheriwse, findById
+	User.findById(id).then((user) => {
+		if (!user) {
+			res.status(404).send();
+			return;
+		}
+		const profile = user.profile;
+		if(!user.profile) {
+			res.status(404).send();
+			return;
+		}
+		user.profile.resume = '/uploads/' + req.file.filename;
+		user.save().then((result) => {
+			res.send(result.profile);
+		}, (error) => {
+			res.status(400).send(sanitizeMongoError(error));
+		})
+	}).catch((error) => {
+		res.status(500).send(sanitizeMongoError(error));
+	})
+});
+
 // post routes
 app.post('/post', authenticate, (req, res) => {
 	// Create a new job post
@@ -505,6 +583,16 @@ app.delete('/posts/:cid', authenticate, (req, res) => {
 		res.status(500).send(error)
 	})
 })
+	
+// Admin Routes
+app.get('/seed/', (req, res) => {
+	if(seedDB() == true){
+		res.send("Database Seeded")
+	} else{
+		res.status(500).send("Seeding Failed");
+	}
+})
+
 
 function sanitizeMongoError(error) {
 	if(error.code === 11000) {
