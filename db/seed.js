@@ -71,6 +71,7 @@ function seedDB() {
 	user.save();
 	user1.save();
 	user2.save();
+	admin.save();
 
 	/** JOBS **/
 	// create some jobs
